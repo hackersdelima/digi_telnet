@@ -1,0 +1,91 @@
+package com.docmgmt.app.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.docmgmt.app.entity.Office;
+import com.docmgmt.app.exception.ProductNotfoundException;
+import com.docmgmt.app.repo.OfficeRepo;
+import com.docmgmt.app.message.HttpResponses;
+import com.docmgmt.app.message.Messages;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+@RestController
+@RequestMapping("office")
+public class OfficeController {
+
+	@Autowired
+	OfficeRepo officeRepo;
+	
+	@GetMapping(path="/")
+	public ResponseEntity<?> read(){
+		List<Office> list = officeRepo.findAll();
+		
+		if(list!=null) {
+			if(list.size()>0) {
+			return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+			}
+		}
+		else {
+			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping(path="/{id}")
+	public ResponseEntity<Messages> read(@PathVariable int id) {
+		try {
+		Office staffsOffice = officeRepo.findById(id).get();
+		if (staffsOffice!=null) {
+			return new ResponseEntity<Messages>(HttpResponses.fetched(staffsOffice), HttpStatus.OK);
+		}
+		}
+		catch (Exception e) {
+		}
+		return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@PostMapping
+	public ResponseEntity<Messages> create(@RequestBody Office staffsOffice) {
+		Office savedOffice = officeRepo.save(staffsOffice);
+
+		if(savedOffice!=null) {
+			return new ResponseEntity<Messages>(HttpResponses.created(savedOffice), HttpStatus.CREATED);
+		}
+		else {
+			return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@DeleteMapping(path="/{id}")
+	public ResponseEntity<Messages> delete(@PathVariable int id) {
+		try {
+		Office staffsOffice=officeRepo.findById(id).get();
+		if(staffsOffice==null) {
+			throw new ProductNotfoundException();
+		}
+		else {
+			officeRepo.deleteById(id);
+			return new ResponseEntity<Messages>(HttpResponses.received(), HttpStatus.GONE);
+		}
+		}
+		catch(Exception e) {
+			throw new ProductNotfoundException();
+		}
+		
+		
+	}
+	
+}
