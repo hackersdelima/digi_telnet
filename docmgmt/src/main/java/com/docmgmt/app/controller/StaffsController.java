@@ -35,7 +35,7 @@ public class StaffsController {
 			if(list.size()>0) {
 			return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
 			}
-			//
+			
 			else {
 				return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
 			}
