@@ -38,7 +38,7 @@
 		<!-- start: page -->
 		<section class="body-sign">
 			<div class="center-sign">
-			
+			<!-- space commented to add logo in the future -->
 				<%-- <a href="/" class="logo pull-left">
 					<img src="${pageContext.request.contextPath }/resources/assets/images/logo.png" height="54" alt="Porto Admin" />
 				</a> --%>
