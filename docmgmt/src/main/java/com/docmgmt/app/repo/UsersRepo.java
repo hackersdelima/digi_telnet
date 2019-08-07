@@ -7,5 +7,6 @@ import com.docmgmt.app.entity.Users;
 
 @Repository
 public interface UsersRepo extends JpaRepository<Users, Integer>{
+	public Users findByUsername(String username);
 
 }

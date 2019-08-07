@@ -42,13 +42,13 @@
 				<%-- <a href="/" class="logo pull-left">
 					<img src="${pageContext.request.contextPath }/resources/assets/images/logo.png" height="54" alt="Porto Admin" />
 				</a> --%>
-
+${msg }
 				<div class="panel panel-sign">
 					<div class="panel-title-sign mt-xl text-right">
 						<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Sign In</h2>
 					</div>
 					<div class="panel-body">
-						<form action="index.html" method="post">
+						<form action="login" method="post" >
 							<div class="form-group mb-lg">
 								<label>Username</label>
 								<div class="input-group input-group-icon">
@@ -66,7 +66,7 @@
 									<label class="pull-left">Password</label>
 								</div>
 								<div class="input-group input-group-icon">
-									<input name="pwd" type="password" class="form-control input-lg" />
+									<input name="password" type="password" class="form-control input-lg" />
 									<span class="input-group-addon">
 										<span class="icon icon-lg">
 											<i class="fa fa-lock"></i>
@@ -101,7 +101,13 @@
 		<!-- end: page -->
 
 		<!-- Vendor -->
-		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jquery/jquery.js"></script>		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>		<script src="${pageContext.request.contextPath }/resources/assets/vendor/bootstrap/js/bootstrap.js"></script>		<script src="${pageContext.request.contextPath }/resources/assets/vendor/nanoscroller/nanoscroller.js"></script>		<script src="${pageContext.request.contextPath }/resources/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>		<script src="${pageContext.request.contextPath }/resources/assets/vendor/magnific-popup/magnific-popup.js"></script>		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jquery/jquery.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/bootstrap/js/bootstrap.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/nanoscroller/nanoscroller.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/magnific-popup/magnific-popup.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="${pageContext.request.contextPath }/resources/assets/javascripts/theme.js"></script>

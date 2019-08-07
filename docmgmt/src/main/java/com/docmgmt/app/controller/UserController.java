@@ -43,16 +43,17 @@ public class UserController {
 	}
 	
 
-	@GetMapping(path="/{id}")
-	public ResponseEntity<?> read(@PathVariable int id){
+	@GetMapping(path="/{username}")
+	public ResponseEntity<?> read(@PathVariable String username){
 		try {
-			Users users = usersRepo.findById(id).get();
+			Users users = usersRepo.findByUsername(username);
 			
 			if(users!=null){
 				return new ResponseEntity<Users>(users, HttpStatus.ACCEPTED);
 			}
 		}
 		catch (Exception e) {
+			System.out.println(e);
 		}
 		return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
 	}
