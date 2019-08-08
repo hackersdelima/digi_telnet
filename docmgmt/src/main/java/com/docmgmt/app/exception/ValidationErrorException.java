@@ -7,7 +7,7 @@ public class ValidationErrorException extends RuntimeException{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	BindingResult bindingResult;
+	public BindingResult bindingResult;
 	public ValidationErrorException(BindingResult bindingResult) {
 		this.bindingResult=bindingResult;
 	}

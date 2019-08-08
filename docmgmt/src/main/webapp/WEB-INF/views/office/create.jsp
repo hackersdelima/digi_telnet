@@ -11,7 +11,8 @@
 				<h2 class="panel-title">Enter Office Details</h2>
 			</header>
 			<div class="panel-body">
-				<form class="form-horizontal form-bordered" method="get">
+				<form class="form-horizontal form-bordered" method="post" name="officeform" id="officeform">
+					<input type="hidden" id="id" value="0">
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="ro_code">RO
 							Code</label>
@@ -48,7 +49,7 @@
 					<footer class="panel-footer">
 										<div class="row">
 											<div class="col-sm-9 col-sm-offset-3">
-												<button class="btn btn-primary">Submit</button>
+												<button type="submit" class="btn btn-primary">Submit</button>
 												<button type="reset" class="btn btn-default">Reset</button>
 											</div>
 										</div>
@@ -61,4 +62,53 @@
 		</section>
 	</div>
 </div>
+<!-- Modal Info -->
+
+									<div id="successmessage" class="modal-block modal-header-color modal-block-info mfp-hide">
+										<section class="panel">
+											<header class="panel-heading">
+												<h2 class="panel-title">Information</h2>
+											</header>
+											<div class="panel-body">
+												<div class="modal-wrapper">
+													<div class="modal-icon">
+														<i class="fa fa-info-circle"></i>
+													</div>
+													<div class="modal-text">
+														<h4>Info</h4>
+														<p>This is a information message.</p>
+													</div>
+												</div>
+											</div>
+											<footer class="panel-footer">
+												<div class="row">
+													<div class="col-md-12 text-right">
+														<button class="btn btn-info modal-dismiss">OK</button>
+													</div>
+												</div>
+											</footer>
+										</section>
+									</div>
 <ui:footer />
+<script src="${pageContext.request.contextPath }/resources/assets/externalJs/ajaxStatus.js"></script>
+<script>
+$( document ).ready(function() {
+	  
+	  // SUBMIT FORM
+	    $("#officeform").submit(function(event) {
+	    // Prevent the form from submitting via the browser.
+	    
+	    event.preventDefault();
+	    var formData = {
+				"id":$('#id').val(),
+	        "ro_code" : $("#ro_code").val(),
+	        "name" :  $("#name").val(),
+	        "address" : $("#address").val(),
+	        "office_level": $("#office_level").val()
+	      };
+	    var url="${pageContext.request.contextPath }/office";
+	    ajaxPost(url, formData);
+	  });
+	
+});
+</script>

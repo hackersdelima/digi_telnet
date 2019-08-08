@@ -21,7 +21,7 @@ public class Office {
 	private String ro_code;
 	
 	@NotNull
-	@Size(min = 4, max = 6)
+	@Size(min = 2, max = 2)
 	private String office_level;
 	
 	@NotNull
