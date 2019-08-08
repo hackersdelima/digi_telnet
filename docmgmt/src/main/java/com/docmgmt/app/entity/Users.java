@@ -43,5 +43,10 @@ public class Users extends BaseEntity{
 	public void setStaffs(Staffs staffs) {
 		this.staffs = staffs;
 	}
-	
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 }
