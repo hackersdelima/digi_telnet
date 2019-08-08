@@ -34,6 +34,12 @@
 		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
 		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
 		
+		<!-- Specific Page Vendor -->
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/select2/select2.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+		<script src="${pageContext.request.contextPath }/resources/assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+		
+		
 		<!-- Theme Base, Components and Settings -->
 		<script src="${pageContext.request.contextPath }/resources/assets/javascripts/theme.js"></script>
 		
@@ -46,3 +52,5 @@
 
 		<!-- Examples -->
 		<script src="${pageContext.request.contextPath }/resources/assets/javascripts/dashboard/examples.dashboard.js"></script>
+		<!-- Examples -->
+		<script src="${pageContext.request.contextPath }/resources/assets/javascripts/tables/examples.datatables.editable.js"></script>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.docmgmt.app.entity.Users;
 import com.docmgmt.app.message.HttpResponses;
@@ -25,6 +26,20 @@ public class UserController {
 
 	@Autowired
 	UsersRepo usersRepo;
+	
+	@GetMapping(path="/create-page")
+	public ModelAndView createpage() {
+		ModelAndView model=new ModelAndView("users/create");
+		model.addObject("pagetitle","USERS");
+		return model;
+	}
+	
+	@GetMapping(path="/view-page")
+	public ModelAndView viewpage() {
+		ModelAndView model=new ModelAndView("users/view");
+		model.addObject("pagetitle","USERS");
+		return model;
+	}
 	
 	@GetMapping(path="/")
 	public ResponseEntity<?> read(){

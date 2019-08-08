@@ -42,7 +42,7 @@
 				<%-- <a href="/" class="logo pull-left">
 					<img src="${pageContext.request.contextPath }/resources/assets/images/logo.png" height="54" alt="Porto Admin" />
 				</a> --%>
-${msg }
+
 				<div class="panel panel-sign">
 					<div class="panel-title-sign mt-xl text-right">
 						<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Sign In</h2>
@@ -88,8 +88,8 @@ ${msg }
 								</div>
 							</div>
 
-							<span class="mt-lg mb-lg line-thru text-center text-uppercase">
-								<span>or</span>
+							<span class="mt-lg mb-lg text-center text-uppercase">
+								<span><center>${msg }</center></span>
 							</span>
 						</form>
 					</div>

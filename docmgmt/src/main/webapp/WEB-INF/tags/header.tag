@@ -1,9 +1,10 @@
 <%@ taglib prefix="ui" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 
 <html class="fixed">
 	<head>
-
+		<title>${pagetitle }</title>
 		<ui:meta/>
 		<ui:styles/>
 		
@@ -41,8 +42,8 @@
 								<img src="${pageContext.request.contextPath }/resources/assets/images/!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="${pageContext.request.contextPath }/resources/assets/images/!logged-user.jpg" />
 							</figure>
 							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-								<span class="name">John Doe Junior</span>
-								<span class="role">administrator</span>
+								<span class="name">${pageContext["request"].userPrincipal.principal.username}</span>
+								<span class="role">${pageContext["request"].userPrincipal.principal.staffs.post}</span>
 							</div>
 			
 							<i class="fa custom-caret"></i>
@@ -58,7 +59,7 @@
 									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
 								</li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="fa fa-power-off"></i> Logout</a>
+									<a role="menuitem" tabindex="-1" href="/logout"><i class="fa fa-power-off"></i> Logout</a>
 								</li>
 							</ul>
 						</div>
@@ -86,7 +87,7 @@
 							<nav id="menu" class="nav-main" role="navigation">
 								<ul class="nav nav-main">
 									<li class="nav-active">
-										<a href="index.html">
+										<a href="<c:url value="/dashboard"/>">
 											<i class="fa fa-home" aria-hidden="true"></i>
 											<span>Dashboard</span>
 										</a>
@@ -95,31 +96,55 @@
 									<li class="nav-parent">
 										<a>
 											<i class="fa fa-align-left" aria-hidden="true"></i>
-											<span>Menu Levels</span>
+											<span>Settings</span>
 										</a>
+										<!-- office settings -->
 										<ul class="nav nav-children">
-											<li>
-												<a>First Level</a>
-											</li>
+											
 											<li class="nav-parent">
-												<a>Second Level</a>
+												<a>Office</a>
 												<ul class="nav nav-children">
-													<li class="nav-parent">
-														<a>Third Level</a>
-														<ul class="nav nav-children">
-															<li>
-																<a>Third Level Link #1</a>
-															</li>
-															<li>
-																<a>Third Level Link #2</a>
-															</li>
-														</ul>
+													
+													<li>
+													
+														<a href="<c:url value="/office/create-page"/>">Add/Update Office</a>
 													</li>
 													<li>
-														<a>Second Level Link #1</a>
+														<a href="<c:url value="/office/view-page"/>">View Office</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										
+										<!-- staff settings -->
+										<ul class="nav nav-children">
+											
+											<li class="nav-parent">
+												<a>Staff</a>
+												<ul class="nav nav-children">
+													
+													<li>
+														<a href="<c:url value="/staffs/create-page"/>">Add/Update Staff</a>
 													</li>
 													<li>
-														<a>Second Level Link #2</a>
+														<a href="<c:url value="/staffs/view-page"/>">View Staff</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										
+										<!-- User settings -->
+										<ul class="nav nav-children">
+											
+											<li class="nav-parent">
+												<a>User</a>
+												<ul class="nav nav-children">
+													
+													<li>
+														<a href="<c:url value="/users/create-page"/>">Add/Update User</a>
+													</li>
+													<li>
+														<a href="<c:url value="/users/view-page"/>">View User</a>
 													</li>
 												</ul>
 											</li>
@@ -136,7 +161,7 @@
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2>Dashboard</h2>
+						<h2>${pagetitle }</h2>
 					
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
@@ -145,7 +170,7 @@
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
-								<li><span>Dashboard</span></li>
+								<li><span>${pagetitle }</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>

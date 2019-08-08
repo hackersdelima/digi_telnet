@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.docmgmt.app.entity.Staffs;
 import com.docmgmt.app.entity.Users;
 
 public class UserPrincipal implements UserDetails {
@@ -31,6 +32,10 @@ public class UserPrincipal implements UserDetails {
 	@Override
 	public String getUsername() {
 		return users.getUsername();
+	}
+	
+	public Staffs getStaffs() {
+		return users.getStaffs();
 	}
 
 	@Override

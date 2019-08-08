@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.docmgmt.app.entity.Staffs;
 import com.docmgmt.app.message.HttpResponses;
@@ -26,6 +27,20 @@ public class StaffsController {
 	StaffsRepo staffsRepo;
 	@Autowired
 	StaffsFamilyRepo staffsFamilyRepo;
+	
+	@GetMapping(path="/create-page")
+	public ModelAndView createpage() {
+		ModelAndView model=new ModelAndView("staff/create");
+		model.addObject("pagetitle","STAFFS");
+		return model;
+	}
+	
+	@GetMapping(path="/view-page")
+	public ModelAndView viewpage() {
+		ModelAndView model=new ModelAndView("staff/view");
+		model.addObject("pagetitle","STAFFS");
+		return model;
+	}
 	
 	@GetMapping(path="/")
 	public ResponseEntity<?> read() {

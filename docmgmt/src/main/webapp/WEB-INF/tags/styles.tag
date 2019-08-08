@@ -22,6 +22,10 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/assets/vendor/morris/morris.css" />
 
+<!-- Specific Page Vendor CSS -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/vendor/select2/select2.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+		
 <!-- Theme CSS -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/assets/stylesheets/theme.css" />
@@ -36,3 +40,5 @@
 
 <script
 	src="${pageContext.request.contextPath }/resources/assets/vendor/modernizr/modernizr.js"></script>
+
+	

@@ -3,6 +3,8 @@ package com.docmgmt.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,14 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.docmgmt.app.entity.Office;
 import com.docmgmt.app.exception.ProductNotfoundException;
-import com.docmgmt.app.repo.OfficeRepo;
 import com.docmgmt.app.message.HttpResponses;
 import com.docmgmt.app.message.Messages;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.docmgmt.app.repo.OfficeRepo;
 
 @RestController
 @RequestMapping("office")
@@ -25,6 +26,21 @@ public class OfficeController {
 
 	@Autowired
 	OfficeRepo officeRepo;
+	
+	//UI connection
+	@GetMapping(path="/create-page")
+	public ModelAndView createpage() {
+		ModelAndView model=new ModelAndView("office/create");
+		model.addObject("pagetitle","OFFICE");
+		return model;
+	}
+	
+	@GetMapping(path="/view-page")
+	public ModelAndView viewpage() {
+		ModelAndView model=new ModelAndView("office/view");
+		model.addObject("pagetitle","OFFICE");
+		return model;
+	}
 	
 	@GetMapping(path="/")
 	public ResponseEntity<?> read(){
