@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.docmgmt.app.message.HttpResponses;
+import com.docmgmt.app.message.Messages;
 
 @RestControllerAdvice
 public class ProductExceptionController extends ResponseEntityExceptionHandler{
@@ -26,6 +27,6 @@ public class ProductExceptionController extends ResponseEntityExceptionHandler{
 	    for (FieldError error : errors ) {
 	    	errormsg.add(error.getField()+" : "+error.getDefaultMessage());
 	    }
-	      return new ResponseEntity<Object>(HttpResponses.validationerror(errormsg), HttpStatus.NOT_FOUND);
+	      return new ResponseEntity<>(HttpResponses.validationerror(errormsg), HttpStatus.NOT_FOUND);
 	}
 }

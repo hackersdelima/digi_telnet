@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.docmgmt.app.entity.Office;
 import com.docmgmt.app.exception.ProductNotfoundException;
+import com.docmgmt.app.exception.ValidationErrorException;
 import com.docmgmt.app.message.HttpResponses;
 import com.docmgmt.app.message.Messages;
 import com.docmgmt.app.repo.OfficeRepo;
@@ -74,7 +77,12 @@ public class OfficeController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Messages> create(@RequestBody Office staffsOffice) {
+	public ResponseEntity<Messages> create(@Validated @RequestBody Office staffsOffice, BindingResult bindingResult) {
+		if(bindingResult.hasErrors())
+		{
+			throw new ValidationErrorException(bindingResult);
+		}
+		else {
 		Office savedOffice = officeRepo.save(staffsOffice);
 
 		if(savedOffice!=null) {
@@ -83,6 +91,7 @@ public class OfficeController {
 		else {
 			return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
 		}	
+		}
 	}
 	
 	@DeleteMapping(path="/{id}")

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.docmgmt.app.entity.Staffs;
 import com.docmgmt.app.message.HttpResponses;
 import com.docmgmt.app.message.Messages;
+import com.docmgmt.app.repo.OfficeRepo;
 import com.docmgmt.app.repo.StaffsFamilyRepo;
 import com.docmgmt.app.repo.StaffsRepo;
 
@@ -28,10 +29,14 @@ public class StaffsController {
 	@Autowired
 	StaffsFamilyRepo staffsFamilyRepo;
 	
+	@Autowired
+	OfficeRepo officeRepo;
+	
 	@GetMapping(path="/create-page")
 	public ModelAndView createpage() {
 		ModelAndView model=new ModelAndView("staff/create");
 		model.addObject("pagetitle","STAFFS");
+		model.addObject("offices", officeRepo.findAll());
 		return model;
 	}
 	
