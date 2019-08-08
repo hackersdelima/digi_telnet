@@ -153,7 +153,7 @@
 <script>
 $( document ).ready(function() {
 	  
-	  // SUBMIT FORM
+	  // SUBMIT First FORM
 	    $("#staffform").submit(function(event) {
 	    // Prevent the form from submitting via the browser.
 	    
@@ -171,6 +171,7 @@ $( document ).ready(function() {
 	    var url="${pageContext.request.contextPath }/staffs";
 	    ajaxPost(url, formData);
 	  });
+	  //submit second form
 	    $("#familyform").submit(function(event) {
 		    // Prevent the form from submitting via the browser.
 		    
