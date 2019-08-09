@@ -89,7 +89,7 @@
 							</div>
 
 							<span class="mt-lg mb-lg text-center text-uppercase">
-								<span><center>${msg }</center></span>
+								<span style="color:red"><center>${msg }</center></span>
 							</span>
 						</form>
 					</div>

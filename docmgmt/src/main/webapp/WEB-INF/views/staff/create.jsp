@@ -127,8 +127,16 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="relation">Relation</label>
 						<div class="col-md-6">
-							<input type="text" class="form-control" id="relation"
+							<select class="form-control" id="relation"
 								name="relation">
+								<option value="">Select Relation</option>
+								<option value="father">Father</option>
+								<option value="mother">Mother</option>
+								<option value="sibling">Sibling</option>
+								<option value="grand father">Grand Father</option>
+								<option value="grand mother">Grand Mother</option>
+								<option value="spouse">Spouse</option>
+								</select>
 						</div>
 					</div>
 					

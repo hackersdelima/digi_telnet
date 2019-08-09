@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.docmgmt.app.entity.Staffs;
 
 @Repository
-public interface StaffsRepo extends JpaRepository<Staffs, Integer>{
+public interface StaffsRepo extends JpaRepository<Staffs, String>{
 
 }

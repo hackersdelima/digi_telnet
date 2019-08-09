@@ -66,7 +66,7 @@ public class StaffsController {
 	}
 
 	@GetMapping(path="/{id}")
-	public ResponseEntity<?> read(@PathVariable int id) {
+	public ResponseEntity<?> read(@PathVariable String id) {
 		try {
 			Staffs staff= staffsRepo.findById(id).get();
 			
@@ -106,7 +106,7 @@ public class StaffsController {
 //	}
 	
 	@DeleteMapping(path="/{id}")
-	public ResponseEntity<Messages> delete(@PathVariable int id) {
+	public ResponseEntity<Messages> delete(@PathVariable String id) {
 		Staffs staffs=staffsRepo.findById(id).get();
 
 		if(staffs!=null) {

@@ -22,20 +22,27 @@ public class Monitor {
     @PostConstruct
     public void init(){
     	BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-		Users user=new Users();
+		Users user=usersRepo.findByUsername("admin");
+		if(user==null) {
+		user=new Users();
 		user.setUsername("admin");
 		user.setPassword(encoder.encode("admin"));
 		user.setStatus(true);
 		
-		Office office=new Office();
+		Office office=officeRepo.findById(1).get();
+		if(office==null) {
+			office=new Office();
 		office.setId(1);
 		office.setName("diginepal");
 		office.setOffice_level("HO");
 		office.setRo_code("201");
 		office.setAddress("baneswor");
 		office=officeRepo.save(office);
+		}
 		
-		Staffs staffs =new  Staffs();
+		Staffs staffs =staffsRepo.findById("201").get();
+		if(staffs==null) {
+		staffs=new Staffs();
 		staffs.setCode("201");
 		staffs.setFirstName("Shishir");
 		staffs.setLastName("karki");
@@ -43,8 +50,9 @@ public class Monitor {
 		staffs.setPost("employee");
 		staffs.setOffice(office);
 		staffs=staffsRepo.save(staffs);
-		
+		}
 		user.setStaffs(staffs);
 		usersRepo.save(user);
+		}
     }
 }
