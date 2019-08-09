@@ -95,22 +95,23 @@
 									
 									<li class="nav-parent">
 										<a>
-											<i class="fa fa-align-left" aria-hidden="true"></i>
+											<i class="fa fa-cogs" aria-hidden="true"></i>
 											<span>Settings</span>
 										</a>
 										<!-- office settings -->
 										<ul class="nav nav-children">
 											
 											<li class="nav-parent">
-												<a>Office</a>
+											
+												<a><i class="fa fa-briefcase" aria-hidden="true"></i> Office</a>
 												<ul class="nav nav-children">
 													
 													<li>
 													
-														<a href="<c:url value="/office/create-page"/>">Add/Update Office</a>
+														<a href="<c:url value="/office/create-page"/>"><i class="fa fa-edit" aria-hidden="true"></i>  Add/Update Office</a>
 													</li>
 													<li>
-														<a href="<c:url value="/office/view-page"/>">View Office</a>
+														<a href="<c:url value="/office/view-page"/>"><i class="fa fa-search" aria-hidden="true"></i>  View Office</a>
 													</li>
 												</ul>
 											</li>
