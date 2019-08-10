@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="fixed">
 	<head>
-
+<title>LOGIN</title>
 		<!-- Basic -->
 		<meta charset="UTF-8">
 

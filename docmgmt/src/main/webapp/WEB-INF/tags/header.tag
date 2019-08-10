@@ -1,7 +1,5 @@
 <%@ taglib prefix="ui" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<!DOCTYPE html>
-
 <html class="fixed">
 	<head>
 		<title>${pagetitle }</title>
@@ -84,77 +82,7 @@
 				
 					<div class="nano">
 						<div class="nano-content">
-							<nav id="menu" class="nav-main" role="navigation">
-								<ul class="nav nav-main">
-									<li class="nav-active">
-										<a href="<c:url value="/dashboard"/>">
-											<i class="fa fa-home" aria-hidden="true"></i>
-											<span>Dashboard</span>
-										</a>
-									</li>
-									
-									<li class="nav-parent">
-										<a>
-											<i class="fa fa-cogs" aria-hidden="true"></i>
-											<span>Settings</span>
-										</a>
-										<!-- office settings -->
-										<ul class="nav nav-children">
-											
-											<li class="nav-parent">
-											
-												<a><i class="fa fa-briefcase" aria-hidden="true"></i> Office</a>
-												<ul class="nav nav-children">
-													
-													<li>
-													
-														<a href="<c:url value="/office/create-page"/>"><i class="fa fa-edit" aria-hidden="true"></i>  Add/Update Office</a>
-													</li>
-													<li>
-														<a href="<c:url value="/office/view-page"/>"><i class="fa fa-search" aria-hidden="true"></i>  View Office</a>
-													</li>
-												</ul>
-											</li>
-										</ul>
-										
-										<!-- staff settings -->
-										<ul class="nav nav-children">
-											
-											<li class="nav-parent">
-												<a>Staff</a>
-												<ul class="nav nav-children">
-													
-													<li>
-														<a href="<c:url value="/staffs/create-page"/>">Add/Update Staff</a>
-													</li>
-													<li>
-														<a href="<c:url value="/staffs/view-page"/>">View Staff</a>
-													</li>
-												</ul>
-											</li>
-										</ul>
-										
-										<!-- User settings -->
-										<ul class="nav nav-children">
-											
-											<li class="nav-parent">
-												<a>User</a>
-												<ul class="nav nav-children">
-													
-													<li>
-														<a href="<c:url value="/users/create-page"/>">Add/Update User</a>
-													</li>
-													<li>
-														<a href="<c:url value="/users/view-page"/>">View User</a>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-									
-								</ul>
-							</nav>
-				
+							<ui:nav/>
 				</div>
 				</div>
 				</aside>
