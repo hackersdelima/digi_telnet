@@ -29,6 +29,8 @@ public class StaffsFamily {
 	@Size(min = 4, max = 30)
 	private String lastName;
 	
+	private String gender;
+	
 	@Size(min = 4, max = 30)
 	private String occupation;
 	
@@ -86,6 +88,13 @@ public class StaffsFamily {
 	}
 	public void setRelation(String relation) {
 		this.relation = relation;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	@Override
 	public String toString() {

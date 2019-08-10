@@ -30,6 +30,8 @@ public class Staffs extends BaseEntity{
 	@Size(min = 4, max = 30)
 	private String lastName;
 	
+	private String gender;
+	
 	private String phoneNumber;
 
 	@NotEmpty
@@ -50,9 +52,13 @@ public class Staffs extends BaseEntity{
 	public void setStaffsFamily(Set<StaffsFamily> staffsFamily) {
 		this.staffsFamily = staffsFamily;
 	}
-	
-	
 
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	public Office getOffice() {
 		return office;
 	}

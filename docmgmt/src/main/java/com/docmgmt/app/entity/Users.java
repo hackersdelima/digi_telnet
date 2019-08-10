@@ -2,8 +2,10 @@ package com.docmgmt.app.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,8 +25,19 @@ public class Users extends BaseEntity{
 	private boolean status;
 	
 	@OneToOne
+	@JoinColumn(updatable = false)
 	private Staffs staffs;
 	
+	@Transient
+	private String confirmpassword;
+	
+	
+	public String getConfirmpassword() {
+		return confirmpassword;
+	}
+	public void setConfirmpassword(String confirmpassword) {
+		this.confirmpassword = confirmpassword;
+	}
 	public String getUsername() {
 		return username;
 	}

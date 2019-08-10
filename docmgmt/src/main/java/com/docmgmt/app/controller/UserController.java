@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.docmgmt.app.entity.Users;
 import com.docmgmt.app.message.HttpResponses;
 import com.docmgmt.app.message.Messages;
+import com.docmgmt.app.repo.StaffsRepo;
 import com.docmgmt.app.repo.UsersRepo;
 
 import java.util.List;
@@ -27,10 +28,14 @@ public class UserController {
 	@Autowired
 	UsersRepo usersRepo;
 	
+	@Autowired
+	StaffsRepo staffsRepo;
+	
 	@GetMapping(path="/create-page")
 	public ModelAndView createpage() {
 		ModelAndView model=new ModelAndView("users/create");
 		model.addObject("pagetitle","USERS");
+		model.addObject("staffs", staffsRepo.findAll());
 		return model;
 	}
 	
@@ -76,12 +81,18 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<Messages> create(@RequestBody Users users) {
 		try{
-			BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
 			String password=users.getPassword();
+			String confirmpassword=users.getConfirmpassword();
+			
+			Users savedUsers=null;
+			
+			if(password.equals(confirmpassword)) {
+				savedUsers=new Users();
+			BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
 			String encpassword=bCryptPasswordEncoder.encode(password);
 			users.setPassword(encpassword);
-			
-			Users savedUsers=usersRepo.save(users);
+			users=usersRepo.save(users);
+			}
 		
 			if(savedUsers!=null) {
 				return new ResponseEntity<Messages>(HttpResponses.created(savedUsers), HttpStatus.CREATED);

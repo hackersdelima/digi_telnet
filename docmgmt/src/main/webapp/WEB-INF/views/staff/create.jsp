@@ -37,7 +37,20 @@
 							<input type="text" class="form-control" id="lname" name="lname">
 						</div>
 					</div>
-
+					
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="gender">Gender</label>
+						<div class="col-md-6">
+							<select class="form-control" id="gender"
+								name="gender">
+								<option value="">Select Gender</option>
+								<option value="m">Male</option>
+								<option value="f">Female</option>
+								<option value="o">Other</option>
+								</select>
+						</div>
+					</div>
+					
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="phone">Phone
 							Number</label>
@@ -107,6 +120,19 @@
 							<input type="text" class="form-control" id="flname" name="flname">
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="fgender">Gender</label>
+						<div class="col-md-6">
+							<select class="form-control" id="fgender"
+								name="fgender">
+								<option value="">Select Gender</option>
+								<option value="m">Male</option>
+								<option value="f">Female</option>
+								<option value="o">Other</option>
+								</select>
+						</div>
+					</div>
 
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="fphone">Phone
@@ -170,6 +196,7 @@ $( document ).ready(function() {
 				"code":$('#code').val(),
 	        "firstName" : $("#fname").val(),
 	        "lastName" :  $("#lname").val(),
+	        "gender" :  $("#gender").val(),
 	        "phoneNumber" : $("#phone").val(),
 	        "post" : $("#post").val(),
 	        "office": {
@@ -188,6 +215,7 @@ $( document ).ready(function() {
 					"id":$('#id').val(),
 					"firstName":$('#ffname').val(),
 					"lastName":$('#flname').val(),
+			        "gender" :  $("#fgender").val(),
 					"occupation":$('#foccupation').val(),
 					"phoneNumber":$('#fphone').val(),
 					"relation":$('#relation').val(),
