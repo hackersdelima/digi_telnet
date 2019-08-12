@@ -1,4 +1,6 @@
 <%@ taglib prefix="ui" tagdir="/WEB-INF/tags"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
 <ui:header />
 
 <div class="row">
@@ -32,7 +34,8 @@
 										<th>Gender</th>
 										<th>Phone Number</th>
 										<th>Post</th>
-										<th>Office</th>		
+										<th>Office</th>	
+										<th>Action</th>	
 									</tr>
 								</thead>
 							</table>
@@ -51,8 +54,12 @@
 							<br>
 							<div class="form-group">
 						<div class="col-md-4">
-							<input type="text" class="form-control input-sm" id="staffcode"
-								name="staffcode" placeholder="Enter Staff Code...">
+							<select class="form-control" id="staffcode" name="staffcode" required>
+							<option value="">Select Staff</option>
+							<c:forEach items="${staffs }" var="s">
+							<option value="${s.code }">${s.code }-${s.firstName } ${s.lastName }</option>
+							</c:forEach>
+							</select>
 						</div>
 					</div>
 						</header>
@@ -67,6 +74,7 @@
 										<th>Occupation</th>
 										<th>Phone Number</th>	
 										<th>Relation</th>
+										<th>Action</th>
 									</tr>
 								</thead>
 							</table>
@@ -78,9 +86,118 @@
 	</div>
 </div>
 
+<!-- Modal for staffs -->
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		<form class="form-horizontal form-bordered" id="staffform">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">EDIT STAFFS</h4>
+			</div>
+			
+			<div class="modal-body">
+				
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="code"> Code</label>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="code" name="code" readonly>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="fname">First
+							Name</label>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="fname" name="fname">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="lname">Last
+							Name</label>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="lname" name="lname">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="gender">Gender</label>
+						<div class="col-md-6">
+							<select class="form-control" id="gender"
+								name="gender">
+								<option value="">Select Gender</option>
+								<option value="m">Male</option>
+								<option value="f">Female</option>
+								<option value="o">Other</option>
+								</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="phone">Phone
+							Number</label>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="phone" name="phone">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="post">Post</label>
+						<div class="col-md-6">
+							<input type="text" class="form-control" id="post" name="post">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="office">Office</label>
+						<div class="col-md-6">
+							<select class="form-control" id="office" name="office">
+							<option value="">Select Office</option>
+							<c:forEach items="${offices }" var="o">
+							<option value="${o.id }">${o.name }</option>
+							</c:forEach>
+							</select>
+						</div>
+					</div>
+				
+			</div>
+			<div class="modal-footer">
+				<footer class="panel-footer">
+					<div class="row">
+						<div class="col-sm-9 col-sm-offset-3">
+							<a type="button" id="deletebtn" onclick="" class="btn btn-danger">Delete</a>
+							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="reset" class="btn btn-default">Reset</button>
+							<button type="button" class="btn btn-info"
+								data-dismiss="modal">Close</button>
+
+						</div>
+					</div>
+				</footer>
+			</div>
+			</form>
+		</div>
+
+	</div>
+</div>
+
+
 <ui:footer />
+<script src="${pageContext.request.contextPath }/resources/assets/externalJs/ajaxStatus.js"></script>
+
 <script>
 $(document).ready(function(){
+	loaddatatable();
+	loadfamilydatatable();
+	$('#staffcode').select2();
+
+});
+
+//show populated datatable
+function loaddatatable(){
 	$('#staffFamilyTable').DataTable();
 	var url="${pageContext.request.contextPath }/staffs/";
 	$.get(url, function(data, status){
@@ -95,14 +212,90 @@ $(document).ready(function(){
 	            {data:"phoneNumber"},
 	            {data:"post"},
 	            {data:"office.name"},
+	            { "data": "Action",
+                    "orderable": false,
+                    "searchable": false,
+                    "render": function(data,type,row,meta) { // render event defines the markup of the cell text 
+                    	var a = '<a class="modal-with-form btn btn-default" onclick="edit('+row.code+')"><i class="fa fa-edit"></i> EDIT</a>'; // row object contains the row data
+                        return a;
+                    }
+	            }
 	  		]
 	 	}); 
 	  })        
 	  .done(function (data) { })
       .fail(function (jqxhr,settings,ex) { alert('No Data Found!'); 
       });
+}
+	
+	//ON EDIT BUTTON CLICK
+	function edit(code){
+		var url="${pageContext.request.contextPath }/staffs/"+code;
+		$.get(url, function(data, status){
+			var json=data.datas;
+			$("#code").val(json.code);
+			$("#fname").val(json.firstName);
+			$("#lname").val(json.lastName);
+			$("#gender").val(json.gender);
+			$("#phone").val(json.phoneNumber);
+			$("#post").val(json.post);	
+			$("#office").val(json.office.id);			
+			$("#deletebtn").attr("onclick","deletedata('"+url+"')");
+			$("#myModal").modal('show');
+		})        
+		  .done(function (data) { })
+	    .fail(function (jqxhr,settings,ex) { alert('No Data Found!'); 
+	    });
+		
+	}
+	
+	// SUBMIT staffs
+    $("#staffform").submit(function(event) {
+    // Prevent the form from submitting via the browser.
+    
+    event.preventDefault();
+    var formData = {
+			"code":$('#code').val(),
+        "firstName" : $("#fname").val(),
+        "lastName" :  $("#lname").val(),
+        "gender" :  $("#gender").val(),
+        "phoneNumber" : $("#phone").val(),
+        "post" : $("#post").val(),
+        "office": {
+        	"id":$("#office").val()
+        }
+    };
+    var url="${pageContext.request.contextPath }/staffs";
+    ajaxPost(url, formData);
+    });
+	
+  //RELOAD ON CLOSE MODAL
+    $("#myModal").on("hidden.bs.modal", function () {
+        location.reload(true);
+    });
+
+
+    //DELETE DATA
+
+    function deletedata(url){
+    	$.ajax({
+    	    url: url,
+    	    type: 'DELETE',
+    	    beforeSend:function(){
+    	         return confirm("Are you sure?");
+    	      },
+    	    success: function(data){  
+    	        alert(data.message);
+    	        location.reload(true);
+    	    },
+    	    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+    	        alert("Status: " + textStatus);
+    	    }   
+    	});
+    }
 	//staff family
-	$('#staffcode').keyup(function(){
+	function loadfamilydatatable(){
+	$('#staffcode').change(function(){
 		var staffcode=$(this).val();
 		getfamily(staffcode);
 	});
@@ -121,6 +314,16 @@ $(document).ready(function(){
 	            {data:"occupation"},
 	            {data:"phoneNumber"},
 	            {data:"relation"},
+	            { "data": "Action",
+                    "orderable": false,
+                    "searchable": false,
+                    "render": function(data,type,row,meta) { // render event defines the markup of the cell text 
+                    	var url='${pageContext.request.contextPath }/staffsFamily/'+row.id;
+                    	var onclick="deletedata('"+url+"')";
+                    	var a = '<a class="modal-with-form btn btn-danger familydelete" onclick="'+onclick+'"><i class="fa fa-thrash"></i>DELETE</a>'; // row object contains the row data
+                    	return a;
+                    }
+	            }
 	  		],
 	  		 "destroy": true
 	 	}); 
@@ -130,8 +333,7 @@ $(document).ready(function(){
     	  $(familytable).empty();
       });
 	}
-});
-
+	}
 
 
 </script>

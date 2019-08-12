@@ -71,6 +71,9 @@
 						<div class="col-md-6">
 							<select class="form-control" id="office" name="office">
 							<option value="1">Select Office</option>
+							<c:forEach items="${offices }" var="o">
+							<option value="${o.id }">${o.name }</option>
+							</c:forEach>
 							
 							
 							</select>
@@ -206,6 +209,7 @@ $( document ).ready(function() {
 	    var url="${pageContext.request.contextPath }/staffs";
 	    ajaxPost(url, formData);
 	  });
+	  
 	  //submit second form
 	    $("#familyform").submit(function(event) {
 		    // Prevent the form from submitting via the browser.

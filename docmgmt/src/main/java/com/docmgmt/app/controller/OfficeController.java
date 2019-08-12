@@ -29,88 +29,83 @@ public class OfficeController {
 
 	@Autowired
 	OfficeRepo officeRepo;
-	
-	//UI connection
-	@GetMapping(path="/create-page")
+
+	// UI connection
+	@GetMapping(path = "/create-page")
 	public ModelAndView createpage() {
-		ModelAndView model=new ModelAndView("office/create");
-		model.addObject("pagetitle","OFFICE");
+		ModelAndView model = new ModelAndView("office/create");
+		model.addObject("pagetitle", "OFFICE");
 		return model;
 	}
-	
-	@GetMapping(path="/view-page")
+
+	@GetMapping(path = "/view-page")
 	public ModelAndView viewpage() {
-		ModelAndView model=new ModelAndView("office/view");
-		model.addObject("pagetitle","OFFICE");
+		ModelAndView model = new ModelAndView("office/view");
+		model.addObject("pagetitle", "OFFICE");
 		return model;
 	}
-	
-	@GetMapping(path="/")
-	public ResponseEntity<?> read(){
+
+	@GetMapping(path = "/")
+	public ResponseEntity<?> read() {
 		List<Office> list = officeRepo.findAll();
-		
-		if(list!=null) {
-			if(list.size()>0) {
-			return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
+
+		if (list != null) {
+			if (list.size() > 0) {
+				return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
 			}
-			else {
-				return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
-			}
-		}
-		else {
-			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@GetMapping(path="/{id}")
+
+	@GetMapping(path = "/{id}")
 	public ResponseEntity<Messages> read(@PathVariable int id) {
 		try {
-		Office staffsOffice = officeRepo.findById(id).get();
-		if (staffsOffice!=null) {
-			return new ResponseEntity<Messages>(HttpResponses.fetched(staffsOffice), HttpStatus.OK);
+			Office staffsOffice = officeRepo.findById(id).get();
+			if (staffsOffice != null) {
+				return new ResponseEntity<Messages>(HttpResponses.fetched(staffsOffice), HttpStatus.OK);
+			}
+		} catch (Exception e) {
 		}
-		}
-		catch (Exception e) {
-		}
-		return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
-		
+		return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
+
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Messages> create(@Validated @RequestBody Office staffsOffice, BindingResult bindingResult) {
-		if(bindingResult.hasErrors())
-		{
+		if (bindingResult.hasErrors()) {
 			throw new ValidationErrorException(bindingResult);
-		}
-		else {
-		Office savedOffice = officeRepo.save(staffsOffice);
+		} else {
+			Office savedOffice = officeRepo.save(staffsOffice);
 
-		if(savedOffice!=null) {
-			return new ResponseEntity<Messages>(HttpResponses.created(savedOffice), HttpStatus.CREATED);
-		}
-		else {
-			return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
-		}	
+			if (savedOffice != null) {
+				return new ResponseEntity<Messages>(HttpResponses.created(savedOffice), HttpStatus.CREATED);
+			} else {
+				return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
+			}
 		}
 	}
-	
-	@DeleteMapping(path="/{id}")
+
+	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Messages> delete(@PathVariable int id) {
 		try {
-		Office staffsOffice=officeRepo.findById(id).get();
-		if(staffsOffice==null) {
-			throw new ProductNotfoundException();
+			if (id > 1) {
+				Office staffsOffice = officeRepo.findById(id).get();
+				if (staffsOffice == null) {
+					throw new ProductNotfoundException();
+				} else {
+					officeRepo.deleteById(id);
+					
+					return new ResponseEntity<Messages>(HttpResponses.received(), HttpStatus.ACCEPTED);
+				}
+			}
+
+		} catch (Exception e) {
 		}
-		else {
-			officeRepo.deleteById(id);
-			return new ResponseEntity<Messages>(HttpResponses.received(), HttpStatus.GONE);
-		}
-		}
-		catch(Exception e) {
-			throw new ProductNotfoundException();
-		}
-		
-		
+		throw new ProductNotfoundException();
+
 	}
-	
+
 }

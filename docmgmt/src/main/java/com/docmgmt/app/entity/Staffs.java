@@ -96,6 +96,12 @@ public class Staffs extends BaseEntity{
 	public void setPost(String post) {
 		this.post = post;
 	}
+	@Override
+	public String toString() {
+		return "Staffs [code=" + code + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
+				+ ", phoneNumber=" + phoneNumber + ", post=" + post + ", office=" + office + ", staffsFamily="
+				+ staffsFamily + "]";
+	}
 	
 	
 	

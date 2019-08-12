@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,11 +34,16 @@ public class StaffsController {
 	@Autowired
 	OfficeRepo officeRepo;
 	
+	@ModelAttribute
+	public void models(Model model) {
+		model.addAttribute("offices", officeRepo.findAll());
+	}
+	
 	@GetMapping(path="/create-page")
 	public ModelAndView createpage() {
 		ModelAndView model=new ModelAndView("staff/create");
 		model.addObject("pagetitle","STAFFS");
-		model.addObject("offices", officeRepo.findAll());
+		
 		return model;
 	}
 	
@@ -44,6 +51,7 @@ public class StaffsController {
 	public ModelAndView viewpage() {
 		ModelAndView model=new ModelAndView("staff/view");
 		model.addObject("pagetitle","STAFFS");
+		model.addObject("staffs", staffsRepo.findAll());
 		return model;
 	}
 	
@@ -65,19 +73,17 @@ public class StaffsController {
 		}
 	}
 
-	@GetMapping(path="/{id}")
-	public ResponseEntity<?> read(@PathVariable String id) {
+	@GetMapping(path="/{code}")
+	public ResponseEntity<?> read(@PathVariable String code) {
 		try {
-			Staffs staff= staffsRepo.findById(id).get();
-			
-			if (staff!=null) {
-				return new ResponseEntity<Staffs>(staff, HttpStatus.ACCEPTED);
+			Staffs staffs = staffsRepo.findById(code).get();
+			if (staffs != null) {
+				return new ResponseEntity<Messages>(HttpResponses.fetched(staffs), HttpStatus.OK);
 			}
+		} catch (Exception e) {
 		}
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-		return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
+
 	}
 
 	
@@ -107,9 +113,9 @@ public class StaffsController {
 	
 	@DeleteMapping(path="/{id}")
 	public ResponseEntity<Messages> delete(@PathVariable String id) {
-		Staffs staffs=staffsRepo.findById(id).get();
+		boolean staff_present=staffsRepo.findById(id).isPresent();
 
-		if(staffs!=null) {
+		if(staff_present) {
 			staffsRepo.deleteById(id);
 			return new ResponseEntity<Messages>(HttpResponses.received(), HttpStatus.ACCEPTED);
 		}

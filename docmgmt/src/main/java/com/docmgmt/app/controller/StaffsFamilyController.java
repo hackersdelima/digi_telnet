@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,6 +72,19 @@ public class StaffsFamilyController {
 			else {
 				return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
 			}
+		}
+		else {
+			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping(path="/{id}")
+	public ResponseEntity<Messages> delete(@PathVariable int id) {
+		boolean stafffamily_present=staffsFamilyRepo.findById(id).isPresent();
+
+		if(stafffamily_present) {
+			staffsFamilyRepo.deleteById(id);
+			return new ResponseEntity<Messages>(HttpResponses.received(), HttpStatus.ACCEPTED);
 		}
 		else {
 			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
