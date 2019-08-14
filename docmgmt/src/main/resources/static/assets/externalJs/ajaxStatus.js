@@ -7,6 +7,9 @@
 			method:"post",
 			data:JSON.stringify(formData),
 			contentType: "application/json",
+			 beforeSend:function(){
+		         return confirm("Are you sure?");
+		      },
 			success: function (data){
 				alert('message:'+data.message);
 		    },
@@ -29,6 +32,9 @@
 			contentType:false,
 			timeout:600000,
 			cache:false,
+			 beforeSend:function(){
+		         return confirm("Are you sure?");
+		      },
 			success: function (data){
 				alert('message:'+data.message);
 		    },
@@ -36,4 +42,24 @@
 		    	alert(err.status);    
 		    }
 		});
+}
+  
+
+//DELETE DATA
+
+function deletedata(url){
+	$.ajax({
+	    url: url,
+	    type: 'DELETE',
+	    beforeSend:function(){
+	         return confirm("Are you sure?");
+	      },
+	    success: function(data){  
+	        alert(data.message);
+	        location.reload(true);
+	    },
+	    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	        alert("Status: " + textStatus);
+	    }   
+	});
 }

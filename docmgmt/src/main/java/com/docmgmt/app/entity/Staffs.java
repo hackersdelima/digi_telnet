@@ -15,8 +15,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.lang.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity

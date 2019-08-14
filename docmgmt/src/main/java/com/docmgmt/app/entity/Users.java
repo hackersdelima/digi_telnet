@@ -28,10 +28,20 @@ public class Users extends BaseEntity{
 	@JoinColumn(updatable = false)
 	private Staffs staffs;
 	
+	//doesn't create a new column
 	@Transient
 	private String confirmpassword;
 	
+	@Transient
+	private String newpassword;
 	
+	
+	public String getNewpassword() {
+		return newpassword;
+	}
+	public void setNewpassword(String newpassword) {
+		this.newpassword = newpassword;
+	}
 	public String getConfirmpassword() {
 		return confirmpassword;
 	}

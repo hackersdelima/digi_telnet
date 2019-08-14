@@ -142,10 +142,10 @@
 							<fieldset class="mb-xl">
 							<div class="form-group">
 									<label class="col-md-3 control-label"
-										for="profileNewPasswordRepeat">Old Password</label>
+										for="password">Old Password</label>
 									<div class="col-md-8">
 										<input type="password" class="form-control"
-											id="profileOldPassword">
+											id="password">
 									</div>
 								</div>
 								<div class="form-group">
@@ -188,8 +188,6 @@
 	src="${pageContext.request.contextPath }/resources/assets/externalJs/ajaxStatus.js"></script>
 
 <script>
-$(document).ready(function(){
-})
 
 	//SUBMIT FORM
 	$("#profileform").submit(function(event) {
@@ -202,6 +200,22 @@ $(document).ready(function(){
 			"phoneNumber" : $("#profilePhone").val()
 		};
 		var url = "${pageContext.request.contextPath }/userprofiles";
+		ajaxPost(url, formData);
+
+	});
+	
+
+	//SUBMIT FORM
+	$("#profilechangepass").submit(function(event) {
+		// Prevent the form from submitting via the browser.
+
+		event.preventDefault();
+		var formData = {
+			"password" : $("#password").val(),
+			"newpassword" : $("#profileNewPassword").val(),
+			"confirmpassword" : $("#profileNewPasswordRepeat").val()
+		};
+		var url = "${pageContext.request.contextPath }/userprofiles/change-password";
 		ajaxPost(url, formData);
 
 	});

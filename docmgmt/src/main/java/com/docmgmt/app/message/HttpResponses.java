@@ -22,6 +22,22 @@ public class HttpResponses {
 		return m;
 	}
 	
+	public static  Messages passwordMismatch() {
+		Messages m=new Messages();
+		m.setStatus(false);
+		m.setStatusCode("");
+		m.setMessage("Passwords Not Matched.");
+		return m;
+	}
+	
+	public static  Messages invalidPassword() {
+		Messages m=new Messages();
+		m.setStatus(false);
+		m.setStatusCode("");
+		m.setMessage("Invalid Password.");
+		return m;
+	}
+	
 	public static  Messages fetched(Object object) {
 		Messages m = new Messages();
 		m.setStatus(true);
