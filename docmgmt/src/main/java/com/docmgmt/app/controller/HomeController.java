@@ -9,9 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
+	//set url value to enter login page
 	@RequestMapping(value = "/login-page", method = RequestMethod.GET)
 	public ModelAndView login(String error, String logout) {
+		//calling jsp file
 		ModelAndView model=new ModelAndView("login");
+		//message to display on login attempt
 		String msg="";
 		if(error!=null) {
 			msg="Invalid Credentials!";
