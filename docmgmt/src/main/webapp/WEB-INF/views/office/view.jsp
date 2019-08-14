@@ -174,23 +174,5 @@ $("#myModal").on("hidden.bs.modal", function () {
 });
 
 
-//DELETE DATA
-
-function deletedata(url){
-	$.ajax({
-	    url: url,
-	    type: 'DELETE',
-	    beforeSend:function(){
-	         return confirm("Are you sure?");
-	      },
-	    success: function(data){  
-	        alert(data.message);
-	        location.reload(true);
-	    },
-	    error: function(XMLHttpRequest, textStatus, errorThrown) { 
-	        alert("Status: " + textStatus);
-	    }   
-	});
-}
 
 </script>

@@ -1,5 +1,6 @@
 <%@ taglib prefix="ui" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<!DOCTYPE html>
 <html class="fixed">
 	<head>
 		<title>${pagetitle }</title>
@@ -37,9 +38,9 @@
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
-								<img src="${pageContext.request.contextPath }/resources/assets/images/!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="${pageContext.request.contextPath }/resources/assets/images/!logged-user.jpg" />
+								<img src="data:image/jpeg;base64,${profileimage}"  class="img-circle" data-lock-picture="data:image/jpeg;base64,${profileimage}" />
 							</figure>
-							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
+							<div class="profile-info" data-lock-name="First Last" data-lock-email="username">
 								<span class="name">${pageContext["request"].userPrincipal.principal.username}</span>
 								<span class="role">${pageContext["request"].userPrincipal.principal.staffs.post}</span>
 							</div>
@@ -51,7 +52,7 @@
 							<ul class="list-unstyled">
 								<li class="divider"></li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
+									<a tabindex="-1" href="<c:url value="/userprofiles/user-profile"/> "><i class="fa fa-user"></i> My Profile</a>
 								</li>
 								<li>
 									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>

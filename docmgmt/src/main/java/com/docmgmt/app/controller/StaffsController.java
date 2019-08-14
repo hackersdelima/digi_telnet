@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.docmgmt.app.entity.Staffs;
@@ -22,6 +24,7 @@ import com.docmgmt.app.message.Messages;
 import com.docmgmt.app.repo.OfficeRepo;
 import com.docmgmt.app.repo.StaffsFamilyRepo;
 import com.docmgmt.app.repo.StaffsRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("staffs")
@@ -30,50 +33,49 @@ public class StaffsController {
 	StaffsRepo staffsRepo;
 	@Autowired
 	StaffsFamilyRepo staffsFamilyRepo;
-	
+
 	@Autowired
 	OfficeRepo officeRepo;
-	
+
 	@ModelAttribute
 	public void models(Model model) {
 		model.addAttribute("offices", officeRepo.findAll());
 	}
-	
-	@GetMapping(path="/create-page")
+
+	@GetMapping(path = "/create-page")
 	public ModelAndView createpage() {
-		ModelAndView model=new ModelAndView("staff/create");
-		model.addObject("pagetitle","STAFFS");
-		
+		ModelAndView model = new ModelAndView("staff/create");
+		model.addObject("pagetitle", "STAFFS");
+
 		return model;
 	}
-	
-	@GetMapping(path="/view-page")
+
+	@GetMapping(path = "/view-page")
 	public ModelAndView viewpage() {
-		ModelAndView model=new ModelAndView("staff/view");
-		model.addObject("pagetitle","STAFFS");
+		ModelAndView model = new ModelAndView("staff/view");
+		model.addObject("pagetitle", "STAFFS");
 		model.addObject("staffs", staffsRepo.findAll());
 		return model;
 	}
-	
-	@GetMapping(path="/")
+
+	@GetMapping(path = "/")
 	public ResponseEntity<?> read() {
-		List<Staffs> list=staffsRepo.findAll();
-		
-		if(list!=null) {
-			if(list.size()>0) {
-			return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
+		List<Staffs> list = staffsRepo.findAll();
+
+		if (list != null) {
+			if (list.size() > 0) {
+				return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
 			}
-			
+
 			else {
-				return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+				return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
 			}
-		}
-		else {
-			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@GetMapping(path="/{code}")
+	@GetMapping(path = "/{code}")
 	public ResponseEntity<?> read(@PathVariable String code) {
 		try {
 			Staffs staffs = staffsRepo.findById(code).get();
@@ -86,47 +88,61 @@ public class StaffsController {
 
 	}
 
-	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody Staffs staffs) {
 		try {
-		
-		Staffs savedStaffs=staffsRepo.save(staffs);
-		
-		if(savedStaffs!=null) {
-			return new ResponseEntity<Messages>(HttpResponses.created(savedStaffs), HttpStatus.CREATED);
-		}
-		
-		}
-		catch (Exception e) {
+
+			Staffs savedStaffs = staffsRepo.save(staffs);
+
+			if (savedStaffs != null) {
+				return new ResponseEntity<Messages>(HttpResponses.created(savedStaffs), HttpStatus.CREATED);
+			}
+
+		} catch (Exception e) {
 			System.out.println(e);
 		}
-			return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
 	}
-	
+
 //	@PutMapping(path="/{id}")
 //	public Staffs update(@PathVariable int id,@RequestBody Staffs staffs) {
 //		staffs.setId(id);
 //		Staffs updatedStaffs=staffsRepo.save(staffs);
 //		return updatedStaffs;
 //	}
-	
-	@DeleteMapping(path="/{id}")
-	public ResponseEntity<Messages> delete(@PathVariable String id) {
-		boolean staff_present=staffsRepo.findById(id).isPresent();
 
-		if(staff_present) {
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<Messages> delete(@PathVariable String id) {
+		boolean staff_present = staffsRepo.findById(id).isPresent();
+
+		if (staff_present) {
 			staffsRepo.deleteById(id);
 			return new ResponseEntity<Messages>(HttpResponses.received(), HttpStatus.ACCEPTED);
-		}
-		else {
-			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
 		}
 	}
 
+	@PostMapping(path = "/image", consumes = { "multipart/form-data" })
+	public ResponseEntity<?> saveImage(@RequestParam(required = true, value = "file") MultipartFile file,
+			@RequestParam(required = true, value = "jsondata") String jsondata) {
+		try {
+			byte[] image_bytes = file.getBytes();
+
+			Staffs staff_from_json = new ObjectMapper().readValue(jsondata, Staffs.class);
+			String code = staff_from_json.getCode();
+
+			Staffs tobesaved = staffsRepo.findById(code).get();
+			tobesaved.setPic(image_bytes);
+
+			Staffs savedstaff = staffsRepo.save(tobesaved);
+			if (savedstaff != null) {
+				return new ResponseEntity<Messages>(HttpResponses.created(savedstaff), HttpStatus.CREATED);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
+	}
 }
-
-
-
-
-
