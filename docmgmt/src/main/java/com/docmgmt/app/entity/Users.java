@@ -6,11 +6,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 @Entity
-@Table
+@Table(uniqueConstraints = {
+	      @UniqueConstraint(columnNames = {"username", "staffs_code"})
+	      })
 public class Users extends BaseEntity{
 	
 	@Id
