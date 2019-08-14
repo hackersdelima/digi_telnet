@@ -28,8 +28,7 @@
 				<h6 class="text-muted">Tasks</h6>
 				<p>Display something regarding projects and work to do</p>
 				<div class="clearfix">
-					<a class="text-uppercase text-muted pull-right" href="#">(View
-						All)</a>
+					<a class="text-uppercase text-muted pull-right" href="${pageContext.request.contextPath }/userprofiles/colleagues-page">(COLLEAGUES)</a>
 				</div>
 
 				<hr class="dotted short">

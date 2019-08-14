@@ -1,17 +1,22 @@
 package com.docmgmt.app.controller;
 
+import java.util.Base64;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.docmgmt.app.entity.Office;
 import com.docmgmt.app.entity.Staffs;
 import com.docmgmt.app.entity.Users;
 import com.docmgmt.app.message.HttpResponses;
@@ -36,6 +41,14 @@ public class ProfileController {
 
 		Users current_user = getCurrentUser(authentication);
 		model.addObject("cuser", current_user);
+
+		return model;
+	}
+	
+	@GetMapping(path = "/user-profile/{code}")
+	public ModelAndView viewprofile(@PathVariable String code) {
+		ModelAndView model = new ModelAndView("profiles/userprofile");
+		model.addObject("code", code);
 
 		return model;
 	}
@@ -99,5 +112,54 @@ public class ProfileController {
 		}
 		return new ResponseEntity<Messages>(HttpResponses.passwordMismatch(), HttpStatus.BAD_REQUEST);
 	}
+
+	@GetMapping(path="/{code}")
+	public ResponseEntity<?> staffDetail(@PathVariable String code) {
+		if (code!=null) {
+			try {
+				 Staffs staffs = staffsRepo.findById(code).get();
+				if (staffs != null) {
+					byte[] image_byte=staffs.getPic();
+					if(image_byte!=null) {
+					 String profileimage = Base64.getEncoder().encodeToString(image_byte);
+					 staffs.setBase64pic(profileimage);
+					}
+					return new ResponseEntity<Messages>(HttpResponses.fetched(staffs), HttpStatus.OK);
+				}
+			} catch (Exception e) {
+				return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.NOT_FOUND);
+			}
+		}
+		 return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);			
+	}
+	
+	@GetMapping(path="/colleagues-page")
+	public ModelAndView colleagues() {
+		ModelAndView model = new ModelAndView("profiles/colleagues");
+		model.addObject("pagetitle", "COLLEAGUES");
+		return model;
+	}
+	
+	@GetMapping(path="/colleagues")
+	public ResponseEntity<?> colleaguesList(Authentication authentication){
+		String currentUsername=authentication.getName();
+		Users user= usersRepo.findByUsername(currentUsername);
+		Office office=user.getStaffs().getOffice();
+		
+		List<Staffs> list = staffsRepo.findByOffice(office);
+
+		if (list != null) {
+			if (list.size() > 0) {
+				return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
+			}
+
+			else {
+				return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
+			}
+		} else {
+			return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
 
 }
