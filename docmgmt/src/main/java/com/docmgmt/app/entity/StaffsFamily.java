@@ -41,7 +41,7 @@ public class StaffsFamily {
 	private String relation;
 	
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="staffs_id", nullable=false)
 	private Staffs staffs;
 	
@@ -96,11 +96,7 @@ public class StaffsFamily {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	@Override
-	public String toString() {
-		return "StaffsFamily [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", occupation="
-				+ occupation + ", phoneNumber=" + phoneNumber + ", relation=" + relation + ", staffs=" + staffs + "]";
-	}
+	
 	
 	
 }

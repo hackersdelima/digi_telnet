@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,9 @@ public class UserController {
 	
 	@Autowired
 	StaffsRepo staffsRepo;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@GetMapping(path="/create-page")
 	public ModelAndView createpage() {
@@ -88,8 +92,7 @@ public class UserController {
 			
 			if(password.equals(confirmpassword)) {
 				savedUsers=new Users();
-			BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
-			String encpassword=bCryptPasswordEncoder.encode(password);
+			String encpassword=passwordEncoder.encode(password);
 			users.setPassword(encpassword);
 			users=usersRepo.save(users);
 			}

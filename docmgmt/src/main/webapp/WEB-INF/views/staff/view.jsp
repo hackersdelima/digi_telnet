@@ -216,9 +216,13 @@ function loaddatatable(){
                     "orderable": false,
                     "searchable": false,
                     "render": function(data,type,row,meta) { // render event defines the markup of the cell text 
-                    	var a = '<a class="modal-with-form btn btn-default" onclick="edit('+row.code+')"><i class="fa fa-edit"></i> EDIT</a>'; // row object contains the row data
-                        return a;
-                    }
+						var profile = '<a class="modal-with-form btn btn-default" href="${pageContext.request.contextPath }/userprofiles/user-profile/'+row.code+'" ><i class="fa fa-edit"></i> PROFILE</a>'; // row object contains the row data
+						var edit='<a class="modal-with-form btn btn-default" onclick="edit('+row.code+')"><i class="fa fa-edit"></i> EDIT</a>';
+                    	var a = edit+' '+profile; // row object contains the row data
+                    	return a;
+                    	
+                    },
+	            	
 	            }
 	  		]
 	 	}); 

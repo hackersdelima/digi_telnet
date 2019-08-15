@@ -42,7 +42,7 @@
 							</figure>
 							<div class="profile-info" data-lock-name="First Last" data-lock-email="username">
 								<span class="name">${pageContext["request"].userPrincipal.principal.username}</span>
-								<span class="role">${pageContext["request"].userPrincipal.principal.staffs.post}</span>
+								<span class="role"></span>
 							</div>
 			
 							<i class="fa custom-caret"></i>

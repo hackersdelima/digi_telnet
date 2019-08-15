@@ -33,6 +33,24 @@
 					</div>
 					
 					<div class="form-group">
+						<label class="col-md-3 control-label" for="uname">Roles</label>
+						<div class="col-md-6">
+							<select class="form-control" id="roles" name="roles" multiple>
+								<option value="10">ADMIN</option>
+								<option value="1">HOLEVEL1</option>
+								<option value="2">HOLEVEL2</option>
+								<option value="3">HOLEVEL3</option>
+								<option value="4">ROLEVEL1</option>
+								<option value="5">ROLEVEL2</option>
+								<option value="6">ROLEVEL3</option>
+								<option value="7">BRLEVEL1</option>
+								<option value="8">BRLEVEL2</option>
+								<option value="9">BRLEVEL3</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
 						<label class="col-md-3 control-label" for="password">Password</label>
 						<div class="col-md-6">
 							<input type="password" class="form-control" id="password" name="password">
@@ -70,16 +88,29 @@
 <script>
 $(document).ready(function() {
 	$('#staffid').select2();
+	$('#roles').select2();
 	  
 	  // SUBMIT FORM
 	    $("#userform").submit(function(event) {
 	    // Prevent the form from submitting via the browser.
-	    
 	    event.preventDefault();
 	    var password=$('#password').val();
 	    var repass=$('#repass').val();
 	    //pass values only when the passwords match
+	    
+	    
 	    if(password==repass){
+	    	//get multiple values from roles select option
+	    	var roles_list=$("#roles").val();
+		    var roles_length=roles_list.length;
+	    	var array=[];
+	    	
+	    	//convert roles selected values to json array object
+	    	$(roles_list).each(function(index, element){
+	    		var data={"id":element};
+	    		array.push(data);
+	    	});
+	    	
 	    var formData = {
 	        "username" : $("#uname").val(),
 	        "name" :  $("#name").val(),
@@ -90,6 +121,8 @@ $(document).ready(function() {
 	        	"code":$('#staffid').val()
 	        }
 	      };
+	    formData['roles']=array;
+	    //formDara.roles=array;
 	    var url="${pageContext.request.contextPath }/users";
 	    ajaxPost(url, formData);
 	     }

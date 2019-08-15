@@ -1,6 +1,10 @@
 package com.docmgmt.app.auth;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,10 +20,20 @@ public class MyUserDetailService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println("loadbyusername called here");
 		Users user=usersRepo.findByUsername(username);
+		
 		if(user==null)
 			throw new UsernameNotFoundException("User 404");
-		return new UserPrincipal(user);
+		//using spring security's User class instead of UserPrincipal
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+		         getAuthorities(user));
 	}
 
+	//get name of roles
+	private static Collection<? extends GrantedAuthority> getAuthorities(Users user) {
+        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
+        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
+        return authorities;
+    }
 }

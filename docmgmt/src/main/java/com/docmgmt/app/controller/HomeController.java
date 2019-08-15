@@ -1,5 +1,11 @@
 package com.docmgmt.app.controller;
 
+import java.util.Collection;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,9 +33,13 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public ModelAndView dashboard() {
+	public ModelAndView dashboard(Authentication authentication) {
 		ModelAndView model=new ModelAndView("dashboard");
 		model.addObject("pagetitle","DASHBOARD");
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		System.out.println(authorities);
 		return model;
 	}
+	
+	
 }

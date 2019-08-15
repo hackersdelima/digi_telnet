@@ -1,13 +1,20 @@
 package com.docmgmt.app.entity;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.docmgmt.app.auth.Role;
 
 @Entity
 @Table
@@ -34,6 +41,15 @@ public class Users extends BaseEntity{
 	
 	@Transient
 	private String newpassword;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable( 
+        name = "users_roles", 
+        joinColumns = @JoinColumn(
+          name = "user_username", referencedColumnName = "username"), 
+        inverseJoinColumns = @JoinColumn(
+          name = "role_id", referencedColumnName = "id")) 
+    private Collection<Role> roles;
 	
 	
 	public String getNewpassword() {
@@ -71,5 +87,11 @@ public class Users extends BaseEntity{
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	public Collection<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
 	}
 }
