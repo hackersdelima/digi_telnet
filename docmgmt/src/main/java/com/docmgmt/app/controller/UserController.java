@@ -3,10 +3,10 @@ package com.docmgmt.app.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +19,7 @@ import com.docmgmt.app.message.HttpResponses;
 import com.docmgmt.app.message.Messages;
 import com.docmgmt.app.repo.StaffsRepo;
 import com.docmgmt.app.repo.UsersRepo;
-
-import java.util.List;
+import com.docmgmt.app.service.UsersService;
 
 @RestController
 @RequestMapping("users")
@@ -34,6 +33,9 @@ public class UserController {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	UsersService usersService;
 	
 	@GetMapping(path="/create-page")
 	public ModelAndView createpage() {
@@ -50,25 +52,15 @@ public class UserController {
 		return model;
 	}
 	
-	@GetMapping(path="/")
-	public ResponseEntity<?> read(){
-		List<Users> list = usersRepo.findAll();
+	@GetMapping(path="/specificUsers")
+	public ResponseEntity<?> read(@ModelAttribute("username") String currentUsername){
+		ResponseEntity<?> returntype = usersService.findByCurrentUsersStaffsOffice(currentUsername);
+		return returntype;
 		
-		if(list!=null) {
-			if(list.size()>0) {
-				return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
-				}
-				else {
-					return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
-				}		}
-		else {
-			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
-		}
 	}
 	
-
 	@GetMapping(path="/{username}")
-	public ResponseEntity<?> read(@PathVariable String username){
+	public ResponseEntity<?> readOne(@PathVariable String username){
 		try {
 			Users users = usersRepo.findByUsername(username);
 			
@@ -85,17 +77,7 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<Messages> create(@RequestBody Users users) {
 		try{
-			String password=users.getPassword();
-			String confirmpassword=users.getConfirmpassword();
-			
-			Users savedUsers=null;
-			
-			if(password.equals(confirmpassword)) {
-				savedUsers=new Users();
-			String encpassword=passwordEncoder.encode(password);
-			users.setPassword(encpassword);
-			users=usersRepo.save(users);
-			}
+			Users savedUsers=usersService.changedPwdUsers(users);
 		
 			if(savedUsers!=null) {
 				return new ResponseEntity<Messages>(HttpResponses.created(savedUsers), HttpStatus.CREATED);

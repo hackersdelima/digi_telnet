@@ -1,7 +1,6 @@
 package com.docmgmt.app.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +40,7 @@ public class StaffsFamily {
 	private String relation;
 	
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="staffs_id", nullable=false)
 	private Staffs staffs;
 	

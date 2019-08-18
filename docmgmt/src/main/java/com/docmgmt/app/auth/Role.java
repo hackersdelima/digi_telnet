@@ -7,11 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import com.docmgmt.app.entity.Users;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Role {
@@ -21,6 +20,8 @@ public class Role {
     private Long id;
  
     private String name;
+    
+    @JsonBackReference
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Collection<Users> users;
 

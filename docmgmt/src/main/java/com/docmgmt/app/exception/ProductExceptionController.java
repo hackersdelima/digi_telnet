@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.docmgmt.app.message.HttpResponses;
-import com.docmgmt.app.message.Messages;
 
 @RestControllerAdvice
 public class ProductExceptionController extends ResponseEntityExceptionHandler{

@@ -41,8 +41,8 @@
 								<img src="data:image/jpeg;base64,${profileimage}"  class="img-circle" data-lock-picture="data:image/jpeg;base64,${profileimage}" />
 							</figure>
 							<div class="profile-info" data-lock-name="First Last" data-lock-email="username">
-								<span class="name">${pageContext["request"].userPrincipal.principal.username}</span>
-								<span class="role"></span>
+ 								    <span class="">${username }</span>
+ 									<span class="role"></span>
 							</div>
 			
 							<i class="fa custom-caret"></i>

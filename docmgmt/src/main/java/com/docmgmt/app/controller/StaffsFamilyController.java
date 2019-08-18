@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.docmgmt.app.component.CrudReturnService;
 import com.docmgmt.app.entity.StaffsFamily;
 import com.docmgmt.app.message.HttpResponses;
 import com.docmgmt.app.message.Messages;
@@ -23,6 +24,9 @@ import com.docmgmt.app.repo.StaffsFamilyRepo;
 public class StaffsFamilyController {
 	@Autowired
 	StaffsFamilyRepo staffsFamilyRepo;
+	
+	@Autowired
+	CrudReturnService<StaffsFamily> crudReturnService;
 	
 	
 	@PostMapping
@@ -46,18 +50,8 @@ public class StaffsFamilyController {
 	public ResponseEntity<?> read() {
 		List<StaffsFamily> list=staffsFamilyRepo.findAll();
 		
-		if(list!=null) {
-			if(list.size()>0) {
-			return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
-			}
-			
-			else {
-				return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
-			}
-		}
-		else {
-			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
-		}
+		ResponseEntity<?> returntype = crudReturnService.controllerReturnForList(list);
+		return returntype;
 	}
 	
 	@GetMapping(path="/findByStaff/{code}")

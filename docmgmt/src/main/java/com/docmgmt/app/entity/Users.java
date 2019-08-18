@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.docmgmt.app.auth.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table
@@ -42,6 +43,7 @@ public class Users extends BaseEntity{
 	@Transient
 	private String newpassword;
 	
+	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable( 
         name = "users_roles", 

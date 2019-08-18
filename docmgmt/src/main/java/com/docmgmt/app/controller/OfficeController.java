@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.docmgmt.app.component.CrudReturnService;
 import com.docmgmt.app.entity.Office;
 import com.docmgmt.app.exception.ProductNotfoundException;
 import com.docmgmt.app.exception.ValidationErrorException;
@@ -30,6 +31,9 @@ public class OfficeController {
 	@Autowired
 	OfficeRepo officeRepo;
 
+	@Autowired
+	CrudReturnService<Office> crudReturnService;
+	
 	// UI connection
 	@GetMapping(path = "/create-page")
 	public ModelAndView createpage() {
@@ -49,15 +53,8 @@ public class OfficeController {
 	public ResponseEntity<?> read() {
 		List<Office> list = officeRepo.findAll();
 
-		if (list != null) {
-			if (list.size() > 0) {
-				return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
-			} else {
-				return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
-			}
-		} else {
-			return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
-		}
+		ResponseEntity<?> returntype = crudReturnService.controllerReturnForList(list);
+		return returntype;
 	}
 
 	@GetMapping(path = "/{id}")

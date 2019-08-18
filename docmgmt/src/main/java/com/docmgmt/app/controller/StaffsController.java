@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.docmgmt.app.component.CrudReturnService;
 import com.docmgmt.app.entity.Staffs;
 import com.docmgmt.app.message.HttpResponses;
 import com.docmgmt.app.message.Messages;
@@ -36,6 +37,9 @@ public class StaffsController {
 
 	@Autowired
 	OfficeRepo officeRepo;
+	
+	@Autowired
+	CrudReturnService<Staffs> crudReturnService;
 
 	@ModelAttribute
 	public void models(Model model) {
@@ -61,18 +65,8 @@ public class StaffsController {
 	@GetMapping(path = "/")
 	public ResponseEntity<?> read() {
 		List<Staffs> list = staffsRepo.findAll();
-
-		if (list != null) {
-			if (list.size() > 0) {
-				return new ResponseEntity<Messages>(HttpResponses.fetched(list), HttpStatus.OK);
-			}
-
-			else {
-				return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
-			}
-		} else {
-			return new ResponseEntity<Messages>(HttpResponses.notfound(), HttpStatus.NOT_FOUND);
-		}
+		ResponseEntity<?> returntype = crudReturnService.controllerReturnForList(list);
+		return returntype;
 	}
 
 	@GetMapping(path = "/{code}")

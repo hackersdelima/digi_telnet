@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
@@ -53,7 +52,7 @@ public class Staffs extends BaseEntity{
 	
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "staffs",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "staffs",cascade = CascadeType.ALL)
 	private Set<StaffsFamily> staffsFamily;
 	
 	

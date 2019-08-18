@@ -26,7 +26,7 @@
 <ui:footer />
 <script>
 $(document).ready(function(){
-	var url="${pageContext.request.contextPath }/users/";
+	var url="${pageContext.request.contextPath }/users/specificUsers";
 	$.get(url, function(data, status){
 	    var json=data.datas;
 	    var table = $('#userTable').DataTable({

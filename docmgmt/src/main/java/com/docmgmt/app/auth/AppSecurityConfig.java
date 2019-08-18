@@ -33,7 +33,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
         .authorizeRequests()
         .antMatchers("/resources/**").permitAll()
         .antMatchers("/login*").permitAll()
-        .antMatchers("/users/create-page").hasRole("HOLEVEL1")
+        .antMatchers("/users/specificUsers").hasAnyRole("HOLEVEL1","ROLEVEL1","BRLEVEL1","ADMIN")
         .anyRequest().authenticated()
         .and()
         .formLogin()
