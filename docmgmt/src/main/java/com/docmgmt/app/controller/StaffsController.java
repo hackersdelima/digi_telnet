@@ -1,7 +1,12 @@
 package com.docmgmt.app.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.docmgmt.app.component.CrudReturnService;
+import com.docmgmt.app.entity.Office;
 import com.docmgmt.app.entity.Staffs;
 import com.docmgmt.app.message.HttpResponses;
 import com.docmgmt.app.message.Messages;
@@ -40,6 +46,8 @@ public class StaffsController {
 	
 	@Autowired
 	CrudReturnService<Staffs> crudReturnService;
+	
+	Office office;
 
 	@ModelAttribute
 	public void models(Model model) {
@@ -140,4 +148,35 @@ public class StaffsController {
 		return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
 	}
 
+	// saving excel files
+		@PostMapping("/import")
+		public String mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile) throws IOException {
+
+			List<Staffs> tempStaffList = new ArrayList<Staffs>();
+
+			XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+
+			for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
+				Staffs tempStaff = new Staffs();
+
+				XSSFRow row = worksheet.getRow(i);
+
+				tempStaff.setCode(row.getCell(0).getStringCellValue());
+				tempStaff.setFirstName(row.getCell(1).getStringCellValue());
+				tempStaff.setLastName(row.getCell(2).getStringCellValue());
+				tempStaff.setGender(row.getCell(3).getStringCellValue());
+				tempStaff.setPhoneNumber(row.getCell(4).getStringCellValue());
+				tempStaff.setPost(row.getCell(5).getStringCellValue());
+				//tempStaff.setOffice(row.getCell(6).getStringCellValue(String.valueOf(Office)));
+				tempStaffList.add(tempStaff);
+			}
+			List<Staffs> status=staffsRepo.saveAll(tempStaffList);
+			workbook.close();
+			if(status.size()>0)
+				return "Data Upload Successful!";
+			
+			
+			return "Data Upload Failed!";
+		}
 }

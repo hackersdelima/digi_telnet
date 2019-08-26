@@ -101,15 +101,22 @@
 		</div>
 	</div>
 	<footer class="panel-footer">
-						<div class="row">
-							<div class="col-sm-9 col-sm-offset-3">
-								<button type="submit" class="btn btn-primary">Upload
-									</button>
-							</div>
-						</div>
-					</footer>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button type="submit" class="btn btn-primary">Upload</button>
+			</div>
+		</div>
+	</footer>
 </form>
+<!-- import excel file -->
+<div class="row">
+	<form action="<c:url value="/staffs/import"/>" method="post"
+		enctype="multipart/form-data" target="_blank">
 
+		<input type="file" name="file"> <input type="submit"
+			value="Import" />
+	</form>
+</div>
 <div class="row">
 	<div class="col-lg-12">
 		<section class="panel">
@@ -248,19 +255,19 @@
 			ajaxPost(url, formData);
 		});
 	});
-	
+
 	//handle image upload separately
 	//change file to base64 and send JSON
-	$("#imgform").submit(function (event){
+	$("#imgform").submit(function(event) {
 		event.preventDefault();
 		var data = new FormData();
 		var json = {
-				"code" : $('#code').val()
+			"code" : $('#code').val()
 		};
 		var jsonData = JSON.stringify(json);
 		data.append("file", $("input[name=pic]")[0].files[0]);
-		data.append("jsondata",jsonData);
-		alert("Data has been sent"+data);
+		data.append("jsondata", jsonData);
+		alert("Data has been sent" + data);
 		url = "${pageContext.request.contextPath }/staffs/image";
 		imagePost(url, data);
 	});

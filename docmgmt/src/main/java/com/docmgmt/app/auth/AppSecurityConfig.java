@@ -22,8 +22,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.docmgmt.app.userhistory.ActiveUserStore;
-
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
@@ -77,10 +75,4 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
 		return new BCryptPasswordEncoder();
 	}
 	
-	//defining a bean for active users
-	@Bean
-	public ActiveUserStore activeUserStore(){
-	    return new ActiveUserStore();
-	}
-
 }

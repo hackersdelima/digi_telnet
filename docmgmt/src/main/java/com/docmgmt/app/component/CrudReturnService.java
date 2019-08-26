@@ -26,5 +26,14 @@ public class CrudReturnService<T> {
 		}
 	
 	}
+	
+public ResponseEntity<Messages> updateReturn(Object object){
+		
+		if (object != null) {
+			return new ResponseEntity<Messages>(HttpResponses.created(object), HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }
