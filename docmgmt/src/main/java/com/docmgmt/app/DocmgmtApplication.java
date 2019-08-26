@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,14 +18,18 @@ import com.docmgmt.app.repo.UsersRepo;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@ComponentScan
 public class DocmgmtApplication {
 	 @Autowired private UsersRepo usersRepo;
 	    @Autowired private StaffsRepo staffsRepo;
 	    @Autowired private OfficeRepo officeRepo;
+	   
+		
 	public static void main(String[] args) {
 		SpringApplication.run(DocmgmtApplication.class, args);
 		
 	}
+	
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
 		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
@@ -70,4 +75,6 @@ public class DocmgmtApplication {
 		usersRepo.save(user);
 		}
 	}
+	
+	
 }

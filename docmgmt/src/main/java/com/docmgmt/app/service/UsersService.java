@@ -28,6 +28,7 @@ public class UsersService {
 		ResponseEntity<?> responsetype=usersComponent.getReturn(list);
 		return responsetype;
 	}
+	
 	public Users changedPwdUsers(Users users) {
 		String password=users.getPassword();
 		String confirmPassword=users.getConfirmpassword();

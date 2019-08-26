@@ -2,6 +2,7 @@ package com.docmgmt.app.controller;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -9,13 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.docmgmt.app.component.LoginComponent;
+import com.docmgmt.app.entity.LoginHistoryManagement;
+import com.docmgmt.app.repo.LoginHistoryManagementRepo;
+
 
 @Controller
 public class HomeController {
-
+	@Autowired
+	LoginComponent lc;
+	
+	LoginHistoryManagement logHistoryMgmt;
+	
+	@Autowired
+	LoginHistoryManagementRepo loginHistoryManagementRepo;
+	
 	//set url value to enter login page
 	@RequestMapping(value = "/login-page", method = RequestMethod.GET)
 	public ModelAndView login(String error, String logout) {
+		
 		//calling jsp file
 		ModelAndView model=new ModelAndView("login");
 		//message to display on login attempt
@@ -35,7 +48,10 @@ public class HomeController {
 		ModelAndView model=new ModelAndView("dashboard");
 		model.addObject("pagetitle","DASHBOARD");
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		System.out.println(authorities);
+		//String username= authentication.getName();
+		//System.out.println("username :: "+ authentication.getName());
+		System.out.println("role"+authorities);
+		//lc.create(logHistoryMgmt, username);
 		return model;
 	}
 	

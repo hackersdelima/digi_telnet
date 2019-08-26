@@ -1,9 +1,12 @@
 package com.docmgmt.app.controller;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +24,7 @@ import com.docmgmt.app.message.Messages;
 import com.docmgmt.app.repo.StaffsRepo;
 import com.docmgmt.app.repo.UsersRepo;
 import com.docmgmt.app.service.UsersService;
+import com.docmgmt.app.userhistory.ActiveUserStore;
 
 @RestController
 @RequestMapping("users")
@@ -37,6 +42,9 @@ public class UserController {
 	@Autowired
 	UsersService usersService;
 	
+	@Autowired
+    ActiveUserStore activeUserStore;
+	
 	@GetMapping(path="/create-page")
 	public ModelAndView createpage() {
 		ModelAndView model=new ModelAndView("users/create");
@@ -51,6 +59,13 @@ public class UserController {
 		model.addObject("pagetitle","USERS");
 		return model;
 	}
+	
+	//mapping for logged users list view
+    @RequestMapping(value = "/loggedUsers", method = RequestMethod.GET)
+    public String getLoggedUsers(Locale locale, Model model) {
+        model.addAttribute("users", activeUserStore.getUsers());
+        return "users";
+    }
 	
 	@GetMapping(path="/specificUsers")
 	public ResponseEntity<?> read(@ModelAttribute("username") String currentUsername){
@@ -100,4 +115,5 @@ public class UserController {
 			return new ResponseEntity<Messages>(HttpResponses.notfound(),HttpStatus.NOT_FOUND);
 		}
 	}
+	 
 }

@@ -1,12 +1,15 @@
 package com.docmgmt.app;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.docmgmt.app.auth.Role;
 import com.docmgmt.app.entity.Users;
 import com.docmgmt.app.repo.UsersRepo;
 
@@ -43,10 +46,41 @@ public class GlobalControllerAdvice {
 		return username;
 	}
 
+	//returns the username of the current user
 	public Users getCurrentUser(Authentication authentication) {
 		String current_username = authentication.getName();
 		Users current_user = usersRepo.findByUsername(current_username);
 		return current_user;
 	}
 
+	//getting user role
+	@ModelAttribute(name = "role")
+	public Collection<Role> roleOfUser(Authentication authentication)
+	{
+		Collection<Role> user_role = new ArrayList<Role>();
+		try {
+			Users current_user = getCurrentUser(authentication);
+			if (current_user!=null) {
+				user_role = current_user.getRoles();
+			}
+		}
+		catch (Exception e) {
+		}
+		return user_role;
+	}
+	
+	//getting user post
+	@ModelAttribute(name = "post")
+	public String getuserPost(Authentication authentication) {
+		String post = "";
+		try {
+			Users current_user = getCurrentUser(authentication);
+			if (current_user!=null) {
+				post = current_user.getStaffs().getPost();
+			}
+		}
+		catch (Exception e) {
+		}
+		return post;
+	}
 }

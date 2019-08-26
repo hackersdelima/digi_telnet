@@ -136,7 +136,7 @@
 						</form>
 						<!-- allow changing passwords here -->
 						<hr class="dotted tall">
-						<form class="form-horizontal" method="get" id="profilechangepass">
+						<form class="form-horizontal" method="post" id="profilechangepass">
 							<h4 class="mb-xlg">Change Password</h4>
 							<fieldset class="mb-xl">
 							<div class="form-group">

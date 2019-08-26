@@ -86,8 +86,10 @@ public class ProfileController {
 	@PostMapping(path="/change-password")
 	public ResponseEntity<?> updatepassword(@RequestBody Users users, Authentication authentication) {
 
+		System.out.println("first phase");
 		String confirmPassword = users.getConfirmpassword();
 		String newPassword = users.getNewpassword();
+		System.out.println("second phase");
 
 		if (confirmPassword.equals(newPassword)) {
 			String username = authentication.getName();
@@ -96,9 +98,11 @@ public class ProfileController {
 
 			String oldpassword = users.getPassword();
 			BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+			System.out.println("third phase");
 
 			if (encode.matches(oldpassword, userpassword)) {
-				
+				System.out.println("fourth phase");
+
 				String newencodedPassword = encode.encode(newPassword);
 				currentUser.setPassword(newencodedPassword);
 				
