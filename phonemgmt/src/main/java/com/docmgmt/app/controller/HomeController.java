@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 	
-	//set url value to enter login page
+	
 		@RequestMapping(value = "/login-page", method = RequestMethod.GET)
 		public ModelAndView login(String error, String logout, Authentication authentication) {
 			ModelAndView model=null;
@@ -53,4 +53,11 @@ public class HomeController {
 			model.addObject("pagetitle","THE PHONE BOOK");
 			return model;
 		}
+		
+//		@RequestMapping(value = "/phone-book2", method = RequestMethod.GET)
+//		public ModelAndView phonebook2(Authentication authentication) {
+//			ModelAndView model=new ModelAndView("phonebook2");
+//			model.addObject("pagetitle","THE PHONE BOOK");
+//			return model;
+//		}
 }

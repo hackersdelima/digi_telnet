@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.docmgmt.app.entity.Admin;
 import com.docmgmt.app.repo.AdminRepo;
 
+//for values that can be accessed anywhere
 @ControllerAdvice
 public class GlobalControllerAdvice {
 	@Autowired

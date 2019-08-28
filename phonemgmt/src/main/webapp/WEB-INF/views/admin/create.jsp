@@ -13,7 +13,9 @@
 			<div class="panel-body">
 				<form class="form-horizontal form-bordered" method="post"
 					id="adminform">
-
+					
+					<input type="hidden" id="id" name="id" value="0">
+					
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="username">Username</label>
 						<div class="col-md-6">
@@ -44,6 +46,17 @@
 								name="status" value="false">False
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="role">Role</label>
+						<div class="col-md-6">
+							<select class="form-control" id="role" name="role">
+								<option value="">Select Role</option>
+								<option value="1">Admin</option>
+								<option value="2">Other</option>
+							</select>
+						</div>
+					</div>
+					
 					<br />
 					<footer class="panel-footer">
 						<div class="row">
@@ -72,10 +85,14 @@ $(document).ready(function() {
 
 		event.preventDefault();
 		var formData = {
+				/* "id" : $("#id").val, */
 			"username" : $("#username").val(),
 			"password" : $("#password").val(),
 			"confirmpassword" : $("#confirmpassword").val(),
-			"status": $(".status:checked").val()
+			"status": $(".status:checked").val(),
+			"roles" : {
+				"id" : $("#role").val()
+			}
 		};
 		var url = "${pageContext.request.contextPath }/admin";
 		ajaxPost(url, formData);

@@ -73,8 +73,6 @@
 								<c:forEach items="${offices }" var="o">
 									<option value="${o.id }">${o.name }</option>
 								</c:forEach>
-
-
 							</select>
 						</div>
 					</div>

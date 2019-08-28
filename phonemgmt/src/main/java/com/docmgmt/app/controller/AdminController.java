@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -73,13 +74,6 @@ public class AdminController {
 
 		for (Admin a : listAll) {
 			adminDto = new AdminDto();
-//			try {
-//				BeanUtils.copyProperties(a, adminDto);
-//				
-//			}
-//			catch (Exception e) {
-//				System.out.println(e);			
-//			}
 			adminService.createDto(a, adminDto);
 			list.add(adminDto);
 		}
@@ -116,7 +110,8 @@ public class AdminController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Messages> create(@PathVariable String id, @Validated @RequestBody Admin admin,
+	@ResponseBody
+	public ResponseEntity<Messages> create(@Validated @RequestBody Admin admin,
 			BindingResult bindingResult) {
 		Admin savedAdmin = null;
 

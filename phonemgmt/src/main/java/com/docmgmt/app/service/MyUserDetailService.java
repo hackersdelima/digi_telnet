@@ -1,10 +1,10 @@
 package com.docmgmt.app.service;
 
 import java.util.Collection;
-import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,7 +33,8 @@ public class MyUserDetailService implements UserDetailsService{
 
 	//get name of roles
 		private static Collection<? extends GrantedAuthority> getAuthorities(Admin admin) {
-	        Collection<GrantedAuthority> authorities = new LinkedList<GrantedAuthority>();
+			String [] adminRoles = admin.getRoles().stream().map((role) -> role.getId()).toArray(String[]::new);
+	        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(adminRoles);
 	        return authorities;
 	    }
 }

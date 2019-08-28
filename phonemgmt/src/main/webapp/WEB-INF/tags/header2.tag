@@ -57,20 +57,8 @@
 				
 					<div class="nano">
 						<div class="nano-content">
-							<hr>
-							<h3>Find information on anyone you want!</h3>
-							<hr>
-							<h3>Search is optimized for your ease!</h3>
-							<hr>
-							<h3>Only know the first name?</h3>
-							<hr>
-							<h3>Or Address?</h3>
-							<hr>
-							<h3>Or Gender?</h3>
-							<hr>
-							<h3>It's fine!</h3>
-							<hr>
-							<h3><b><u>WE ARE HERE!!!</u></b></h3>
+							
+							<ui:nav2/>
 						</div>
 					</div>
 				</aside>

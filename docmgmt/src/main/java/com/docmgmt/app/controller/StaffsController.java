@@ -36,8 +36,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("staffs")
 public class StaffsController {
+	
 	@Autowired
 	StaffsRepo staffsRepo;
+	
 	@Autowired
 	StaffsFamilyRepo staffsFamilyRepo;
 
@@ -151,24 +153,33 @@ public class StaffsController {
 	// saving excel files
 		@PostMapping("/import")
 		public String mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile) throws IOException {
-
+			office = new Office();
 			List<Staffs> tempStaffList = new ArrayList<Staffs>();
-
+			
 			XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
 			XSSFSheet worksheet = workbook.getSheetAt(0);
 
 			for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
 				Staffs tempStaff = new Staffs();
-
+						
 				XSSFRow row = worksheet.getRow(i);
 
 				tempStaff.setCode(row.getCell(0).getStringCellValue());
 				tempStaff.setFirstName(row.getCell(1).getStringCellValue());
 				tempStaff.setLastName(row.getCell(2).getStringCellValue());
 				tempStaff.setGender(row.getCell(3).getStringCellValue());
-				tempStaff.setPhoneNumber(row.getCell(4).getStringCellValue());
+				
+				double phone = row.getCell(4).getNumericCellValue();
+				String phoneNum = Double.toString(phone);
+				tempStaff.setPhoneNumber(phoneNum);
+				
 				tempStaff.setPost(row.getCell(5).getStringCellValue());
-				//tempStaff.setOffice(row.getCell(6).getStringCellValue(String.valueOf(Office)));
+				
+				//getting in double and casting to int
+//				double officeId = row.getCell(6).getNumericCellValue();
+//				int office_id = (int) officeId;
+//				tempStaff.setOffice((office.setId(office_id)));
+//				
 				tempStaffList.add(tempStaff);
 			}
 			List<Staffs> status=staffsRepo.saveAll(tempStaffList);
