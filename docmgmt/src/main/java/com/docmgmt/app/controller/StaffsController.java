@@ -150,7 +150,7 @@ public class StaffsController {
 		return new ResponseEntity<Messages>(HttpResponses.badrequest(), HttpStatus.BAD_REQUEST);
 	}
 
-	// saving excel files
+	// saving excel files to the db directly
 		@PostMapping("/import")
 		public String mapReapExcelDatatoDB(@RequestParam("file") MultipartFile reapExcelDataFile) throws IOException {
 			office = new Office();
@@ -163,25 +163,43 @@ public class StaffsController {
 				Staffs tempStaff = new Staffs();
 						
 				XSSFRow row = worksheet.getRow(i);
-
-				tempStaff.setCode(row.getCell(0).getStringCellValue());
+				
+				try {
+				int code = (int)row.getCell(0).getNumericCellValue();
+				String code_i = String.valueOf(code);
+				tempStaff.setCode(code_i);
+				
 				tempStaff.setFirstName(row.getCell(1).getStringCellValue());
 				tempStaff.setLastName(row.getCell(2).getStringCellValue());
 				tempStaff.setGender(row.getCell(3).getStringCellValue());
 				
-				double phone = row.getCell(4).getNumericCellValue();
-				String phoneNum = Double.toString(phone);
+				try {
+				int phone = (int)row.getCell(4).getNumericCellValue();
+				String phoneNum = String.valueOf(phone);
 				tempStaff.setPhoneNumber(phoneNum);
+				}
+				catch (Exception e) {
+					System.out.println("exception in type conversion for phone number "+e);				
+					}
 				
 				tempStaff.setPost(row.getCell(5).getStringCellValue());
 				
-				//getting in double and casting to int
-//				double officeId = row.getCell(6).getNumericCellValue();
-//				int office_id = (int) officeId;
-//				tempStaff.setOffice((office.setId(office_id)));
-//				
+				//setting office
+				int officeId = (int) row.getCell(6).getNumericCellValue();
+				
+				office.setId(officeId);
+				
+				tempStaff.setOffice(office);
+		
 				tempStaffList.add(tempStaff);
+				
+				}
+				catch (Exception e) {
+					System.out.println("Error setting values"+e);
+				}
+				
 			}
+			
 			List<Staffs> status=staffsRepo.saveAll(tempStaffList);
 			workbook.close();
 			if(status.size()>0)
