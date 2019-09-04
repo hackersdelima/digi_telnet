@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,6 +23,8 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.docmgmt.app.controller.DefaultUserController;
+
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
@@ -30,7 +33,21 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+	@Autowired
+	DefaultUserController duc;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
+	//called the properties username and password here and set as in memory authentication
+	//it supersedes the default admin/pass previously provided
+//	@Autowired
+//	  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//	    auth
+//	      .inMemoryAuthentication()
+//	        .withUser(duc.username()).password(passwordEncoder.encode(duc.password())).roles("ADMIN");
+//	  }
+	
 	@Bean
 	public AuthenticationProvider authProvider() {
 		DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
