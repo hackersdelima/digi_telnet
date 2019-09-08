@@ -38,7 +38,7 @@
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
-								<img src="data:image/jpeg;base64,${profileimage}"  class="img-circle" data-lock-picture="data:image/jpeg;base64,${profileimage}" />
+								<img src="data:image/jpeg;base64,${profileimage}" class="img-circle" />
 							</figure>
 							<div class="profile-info" data-lock-name="First Last" data-lock-email="username">
  								    <span class="">${username }</span><br />
@@ -54,9 +54,9 @@
 								<li>
 									<a tabindex="-1" href="<c:url value="/userprofiles/user-profile"/> "><i class="fa fa-user"></i> My Profile</a>
 								</li>
-								<li>
+								<%--<li>
 									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
-								</li>
+								</li>--%>
 								<li>
 									<a role="menuitem" tabindex="-1" href="/logout"><i class="fa fa-power-off"></i> Logout</a>
 								</li>
@@ -106,5 +106,3 @@
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 						</div>
 					</header>
-				
-			

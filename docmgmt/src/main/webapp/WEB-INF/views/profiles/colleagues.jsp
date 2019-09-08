@@ -33,8 +33,6 @@
 
 
 <ui:footer />
-<script
-	src="${pageContext.request.contextPath }/resources/assets/externalJs/ajaxStatus.js"></script>
 
 <script>
 	$(document).ready(function() {

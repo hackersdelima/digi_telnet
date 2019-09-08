@@ -36,16 +36,9 @@
 						<label class="col-md-3 control-label" for="uname">Roles</label>
 						<div class="col-md-6">
 							<select class="form-control" id="roles" name="roles" multiple>
-								<option value="10">ADMIN</option>
-								<option value="1">HOLEVEL1</option>
-								<option value="2">HOLEVEL2</option>
-								<option value="3">HOLEVEL3</option>
-								<option value="4">ROLEVEL1</option>
-								<option value="5">ROLEVEL2</option>
-								<option value="6">ROLEVEL3</option>
-								<option value="7">BRLEVEL1</option>
-								<option value="8">BRLEVEL2</option>
-								<option value="9">BRLEVEL3</option>
+								<option value="ADMIN">ADMIN</option>
+								<option value="INPUTTER">INPUTTER</option>
+								<option value="AUTHORIZER">AUTHORIZER</option>
 							</select>
 						</div>
 					</div>
@@ -84,7 +77,6 @@
 </div>
 
 <ui:footer />
-<script src="${pageContext.request.contextPath }/resources/assets/externalJs/ajaxStatus.js"></script>
 <script>
 $(document).ready(function() {
 	$('#staffid').select2();
