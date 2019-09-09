@@ -9,19 +9,28 @@ import com.digi.app.repo.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class DocmgmtApplication {
+@EntityScan(basePackages ="com.digi.app")
+public class DocmgmtApplication extends SpringBootServletInitializer {
     @Autowired
     private UsersRepo usersRepo;
     @Autowired
     private StaffsRepo staffsRepo;
     @Autowired
     private OfficeRepo officeRepo;
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(DocmgmtApplication.class);
+    }
 
 
     public static void main(String[] args) {

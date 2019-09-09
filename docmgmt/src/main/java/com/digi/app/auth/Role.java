@@ -1,53 +1,48 @@
 package com.digi.app.auth;
 
-import java.util.Collection;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
 import com.digi.app.entity.Users;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+import java.util.Collection;
+
 /*
 POWERED BY PEEPALSOFT - SHISHIR KARKI
  */
 @Entity
 public class Role {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
- 
+
     private String name;
-    
+
     @JsonBackReference
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Collection<Users> users;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Collection<Users> getUsers() {
-		return users;
-	}
+    public Collection<Users> getUsers() {
+        return users;
+    }
 
-	public void setUsers(Collection<Users> users) {
-		this.users = users;
-	}
+    public void setUsers(Collection<Users> users) {
+        this.users = users;
+    }
 }

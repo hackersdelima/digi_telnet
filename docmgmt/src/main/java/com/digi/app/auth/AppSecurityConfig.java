@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 /*
 POWERED BY PEEPALSOFT - SHISHIR KARKI
  */
@@ -20,10 +20,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserDetailsService myUserDetailService;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
 
     @Bean
     public AuthenticationProvider authProvider() {
@@ -35,8 +31,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] adminPathsArray=new String[]{"/users/**","/staffs/**","/office/**"};
-        String[] authorizerPathsArray=new String[]{"/authorize/**"};
+        String[] adminPathsArray = new String[]{"/users/**", "/staffs/**", "/office/**"};
+        String[] authorizerPathsArray = new String[]{"/authorize/**"};
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -62,7 +58,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //defining a bean to encrypt passwords
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

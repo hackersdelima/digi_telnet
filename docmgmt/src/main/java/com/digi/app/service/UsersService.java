@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class UsersService {
 	UsersComponent usersComponent;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	UsersRepo usersRepo;
@@ -44,7 +45,7 @@ public class UsersService {
 	public String checkPasswordConfirmPassword(String password, String confirmPassword) {
 		String encpassword="";
 		if(password.equals(confirmPassword)) {
-			 encpassword=passwordEncoder.encode(password);
+			 encpassword=bCryptPasswordEncoder.encode(password);
 		}
 		return encpassword;
 	}
