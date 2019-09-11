@@ -1,6 +1,6 @@
 package com.digi.app.telnet.component;
 
-import com.digi.app.telnet.config.TelnetUser;
+import com.digi.app.telnet.config.TelnetConfig;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -17,11 +17,9 @@ public class TelnetConnectionComponent {
     private static PrintWriter out;
     private static BufferedReader in;
 
-    private String ip = TelnetUser.ip;
-    private int port = TelnetUser.port;
 
     public List<List<String>> telnetConnectionAndResponseList(String command) {
-        boolean connectionStatus = startConnection(ip, port);
+        boolean connectionStatus = startConnection(TelnetConfig.ip, TelnetConfig.port);
         if (connectionStatus) {
             String response = sendMessage(command);
             List<List<String>> responseList = conversion(response);
@@ -33,7 +31,7 @@ public class TelnetConnectionComponent {
     }
 
     public String telnetConnectionAndResponseString(String command) {
-        boolean connectionStatus = startConnection(ip, port);
+        boolean connectionStatus = startConnection(TelnetConfig.ip, TelnetConfig.port);
         if (connectionStatus) {
             String response = sendMessage(command);
             stopConnection();
