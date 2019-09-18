@@ -3,9 +3,7 @@ package com.digi.app.telnet.component;
 import com.digi.app.telnet.config.TelnetConfig;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,35 +11,28 @@ import java.util.List;
 
 @Component
 public class TelnetConnectionComponent {
-    private static Socket clientSocket;
-    private static PrintWriter out;
-    private static BufferedReader in;
-
 
     public List<List<String>> telnetConnectionAndResponseList(String command) {
-        boolean connectionStatus = startConnection(TelnetConfig.ip, TelnetConfig.port);
-        if (connectionStatus) {
-            String response = sendMessage(command);
-            List<List<String>> responseList = conversion(response);
-            stopConnection();
-            return responseList;
+        try {
+            List<List<String>> serverResponses=new ArrayList<>();
+            Socket client = new Socket(TelnetConfig.ip, TelnetConfig.port);
+            OutputStream outToServer = client.getOutputStream();
+            DataOutputStream out = new DataOutputStream(outToServer);
+
+            out.writeUTF(command);
+            InputStream inFromServer = client.getInputStream();
+            DataInputStream in = new DataInputStream(inFromServer);
+            String serverResponse = in.readUTF();
+            serverResponses=conversion(serverResponse);
+            client.close();
+            return serverResponses;
+
+        } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
 
     }
-
-    public String telnetConnectionAndResponseString(String command) {
-        boolean connectionStatus = startConnection(TelnetConfig.ip, TelnetConfig.port);
-        if (connectionStatus) {
-            String response = sendMessage(command);
-            stopConnection();
-            return response;
-        }
-        return null;
-
-    }
-
-    //TODO: need to work out at the for each loop section
     public List<List<String>> conversion(String response) {
 
         //deleting unused part
@@ -58,7 +49,6 @@ public class TelnetConnectionComponent {
         List<String> strings = new ArrayList<>();
         //for first list value of splittedmaindatas
 
-        //TODO: this loop is not working properly, need to create beautiful loop
         for (String data : splittedmaindatas) {
             String pre = "\"";
             String post = "\"";
@@ -69,7 +59,20 @@ public class TelnetConnectionComponent {
         return responseList;
     }
 
-    public boolean startConnection(String ip, int port) {
+   /* public String telnetConnectionAndResponseString(String command) {
+        boolean connectionStatus = startConnection(TelnetConfig.ip, TelnetConfig.port);
+        if (connectionStatus) {
+            String response = sendMessage(command);
+            stopConnection();
+            return response;
+        }
+        return null;
+
+    }
+*/
+
+
+    /*public boolean startConnection(String ip, int port) {
         try {
             clientSocket = new Socket(ip, port);
             out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -101,5 +104,5 @@ public class TelnetConnectionComponent {
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
+    }*/
 }

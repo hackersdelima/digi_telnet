@@ -23,7 +23,6 @@ public class StatementController {
 
     @GetMapping(path = "/search-form")
     public ModelAndView searchForm() {
-        System.out.println("reached searchform");
         ModelAndView modelAndView = new ModelAndView("statement/statementSearchForm");
         modelAndView.addObject("pagetitle", "MINI STATEMENT SEARCH");
         return modelAndView;
